@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Gran Historia Bíblica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   SISTEMA DE DISEÑO — La Gran Historia Bíblica
+   Branding: Gerardo · Identidad oscura profesional
+   Azul #4C6EB1 · Teal #01A4A4 · Dorado histórico #C9952A
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* ── Fondos en capas (navy oscuro, derivado del #1A1E2E del branding) ── */
+  --bg-root:   #0b0e17;
+  --bg-base:   #0f1520;
+  --bg-card:   #141c2c;
+  --bg-card-h: #1a2438;
+  --bg-nav:    #090d18;
+  --bg-modal:  #111828;
+
+  /* ── Paleta de marca Gerardo ── */
+  --blue:      #4C6EB1;          /* azul primario del branding */
+  --blue-lt:   #6d8ec8;          /* azul hover */
+  --blue-dim:  rgba(76,110,177,0.14);
+  --blue-line: rgba(76,110,177,0.30);
+  --teal:      #01A4A4;          /* teal del branding */
+  --teal-lt:   #02c4c4;
+  --teal-dim:  rgba(1,164,164,0.14);
+
+  /* ── Dorado histórico (solo para fechas, eras, énfasis cronológico) ── */
+  --gold:      #c9952a;
+  --gold-lt:   #e8b84b;
+  --gold-dim:  rgba(201,149,42,0.15);
+  --gold-line: rgba(201,149,42,0.25);
+
+  /* ── Texto ── */
+  --txt-hi:    #eef2f8;   /* máximo contraste */
+  --txt-main:  #c8d4e4;   /* texto principal — tono frío/profesional */
+  --txt-sub:   #7a90b0;   /* secundario */
+  --txt-muted: #3d5070;   /* muted */
+
+  /* ── Tipografía ── */
+  --f-display: 'Cinzel', serif;          /* solo títulos históricos y años */
+  --f-ui:      'Montserrat', sans-serif; /* TODA la UI: nav, filtros, labels, botones */
+  --f-body:    'Crimson Pro', Georgia, serif; /* texto descriptivo */
+
+  /* ── Radios y sombras ── */
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --shadow-card:  0 4px 32px rgba(0,0,0,0.6);
+  --shadow-hover: 0 12px 48px rgba(0,0,0,0.75), 0 0 20px rgba(76,110,177,0.12);
+  --trans: 0.22s ease;
+
+  /* ── Colores de era ── */
+  --c-creation:   #4a9fe0;
+  --c-patriarchs: #8b72f0;
+  --c-egypt:      #e8a030;
+  --c-conquest:   #e06020;
+  --c-judges:     #cc3333;
+  --c-kingdom:    #a050cc;
+  --c-divided:    #d42828;
+  --c-exile:      #2878cc;
+  --c-return:     #20b060;
+  --c-inter:      #7890a8;
+  --c-nt:         #e89a08;
+}
+
+/* ── Reset & base ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box }
+html { scroll-behavior:smooth; font-size:17px }
+body {
+  background: var(--bg-root);
+  color: var(--txt-main);
+  font-family: var(--f-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── Stars canvas ── */
+#stars { position:fixed; inset:0; pointer-events:none; z-index:0 }
+#stars canvas { position:absolute; inset:0; width:100%; height:100% }
+
+/* ════════════════════════════
+   HERO
+   ════════════════════════════ */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 1;
+  overflow: hidden;
+  padding: 2rem;
+}
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse 80% 60% at 50% 50%,
+    rgba(201,149,42,0.13) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow {
+  font-family: var(--f-ui);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  animation: fadeDown 0.8s ease both;
+}
+.hero-title {
+  font-family: var(--f-display);
+  font-size: clamp(2.8rem, 7vw, 6.5rem);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: 0.04em;
+  background: linear-gradient(160deg, #fffae0 0%, var(--gold-lt) 35%, #fff 60%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.25rem;
+  animation: fadeDown 1s ease both;
+}
+.hero-sub {
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  color: var(--txt-hi);
+  opacity: 0.82;
+  margin-bottom: 0.5rem;
+  animation: fadeDown 1.15s ease both;
+}
+.hero-dates {
+  font-family: var(--f-ui);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: 0.22em;
+  margin-bottom: 2.5rem;
+  animation: fadeDown 1.3s ease both;
+}
+.hero-btn {
+  font-family: var(--f-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  padding: 1rem 2.8rem;
+  border: 1.5px solid var(--blue);
+  background: transparent;
+  color: var(--blue-lt);
+  cursor: pointer;
+  border-radius: var(--r-sm);
+  transition: all 0.3s;
+  animation: fadeDown 1.45s ease both;
+}
+.hero-btn:hover { background: var(--blue); color: #fff; }
+.hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  font-family: var(--f-ui);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: var(--txt-muted);
+  animation: bounce 2.2s ease infinite;
+}
+.hero-scroll::after { content:'  ▾'; color: var(--teal) }
+
+/* ════════════════════════════
+   ERA NAV — sticky top bar
+   ════════════════════════════ */
+.era-nav {
+  position: sticky; top:0; z-index: 200;
+  background: rgba(9,12,20,0.96);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--gold-line);
+}
+.era-tabs {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 0.5rem;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.era-tabs::-webkit-scrollbar { display:none }
+.era-tab {
+  flex-shrink: 0;
+  padding: 0.85rem 1.05rem;
+  font-family: var(--f-ui);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--txt-sub);
+  border-bottom: 2.5px solid transparent;
+  transition: color var(--trans), border-color var(--trans);
+  white-space: nowrap;
+}
+.era-tab:hover { color: var(--blue-lt) }
+.era-tab.active { color: var(--blue-lt); border-bottom-color: var(--teal) }
+
+/* ════════════════════════════
+   MAIN SECTION LAYOUT
+   ════════════════════════════ */
+.timeline-section {
+  position: relative; z-index: 1;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 4rem 2rem 3rem;
+}
+.section-title {
+  font-family: var(--f-display);
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--txt-hi);
+  text-align: center;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.6rem;
+}
+.section-divider {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--teal), var(--blue), transparent);
+  margin: 0 auto 2.5rem;
+  border-radius: 2px;
+}
+
+/* ════════════════════════════
+   YEAR SELECTOR CARD
+   ════════════════════════════ */
+.year-selector {
+  background: var(--bg-card);
+  border: 1px solid var(--gold-line);
+  border-radius: var(--r-lg);
+  padding: 2.5rem 2.5rem 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--shadow-card);
+}
+.year-display-big {
+  font-family: var(--f-display);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 900;
+  text-align: center;
+  color: var(--gold-lt);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  text-shadow: var(--gold-glow);
+}
+.era-label {
+  font-family: var(--f-ui);
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  color: var(--teal-lt);
+  margin-bottom: 2rem;
+  letter-spacing: 0.04em;
+  opacity: 0.9;
+}
+
+/* Slider */
+#year-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg,
+    var(--c-creation), var(--c-patriarchs), var(--c-egypt),
+    var(--c-conquest), var(--c-judges), var(--c-kingdom),
+    var(--c-divided), var(--c-exile), var(--c-return),
+    var(--c-inter), var(--c-nt));
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 0.6rem;
+}
+#year-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--gold-lt);
+  border: 3px solid #fff;
+  box-shadow: 0 0 16px rgba(201,149,42,0.7);
+  cursor: pointer;
+  transition: transform var(--trans);
+}
+#year-slider::-webkit-slider-thumb:hover { transform: scale(1.18) }
+#year-slider::-moz-range-thumb {
+  width:26px; height:26px; border-radius:50%;
+  background: var(--gold-lt); border: 3px solid #fff; cursor:pointer;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--f-ui);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--txt-sub);
+  margin-bottom: 1.75rem;
+  letter-spacing: 0.04em;
+}
+
+/* Timeline bar */
+.timeline-bar-wrap { position:relative; margin:1.75rem 0 0.5rem; }
+.timeline-bar {
+  height: 48px;
+  border-radius: var(--r-sm);
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+.era-segment {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display);
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: filter var(--trans), opacity var(--trans);
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 0.88;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.era-segment:hover { filter: brightness(1.25); opacity: 1 }
+.timeline-needle {
+  position: absolute; top: -5px; bottom: -5px;
+  width: 3px;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 0 14px rgba(255,255,255,0.9);
+  pointer-events: none;
+  transition: left 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.timeline-needle::after {
+  content: '▼';
+  position: absolute; top: -16px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  color: #fff;
+}
+
+/* Manual year input */
+.manual-year {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.manual-year input {
+  font-family: var(--f-ui);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.65rem 1rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--blue-line);
+  color: var(--txt-hi);
+  border-radius: var(--r-sm);
+  width: 130px;
+  text-align: center;
+  outline: none;
+  transition: border-color var(--trans), box-shadow var(--trans);
+}
+.manual-year input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(76,110,177,0.18);
+}
+.manual-year select {
+  font-family: var(--f-ui);
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 0.65rem 0.9rem;
+  background: var(--bg-base);
+  border: 1px solid var(--blue-line);
+  color: var(--blue-lt);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  outline: none;
+}
+.go-btn {
+  font-family: var(--f-ui);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.65rem 1.75rem;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--teal) 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: opacity var(--trans), transform var(--trans);
+  box-shadow: 0 4px 18px rgba(76,110,177,0.3);
+}
+.go-btn:hover { opacity: 0.88; transform: translateY(-1px) }
+
+/* Quick jump pills */
+.quick-jumps-wrap {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.quick-jumps-label {
+  font-family: var(--f-ui);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--txt-muted);
+  text-align: center;
+  margin-bottom: 0.85rem;
+}
+.quick-jumps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: center;
+}
+.quick-btn {
+  font-family: var(--f-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.38rem 0.9rem;
+  border: 1.5px solid;
+  border-radius: 20px;
+  cursor: pointer;
+  /* ── texto siempre legible ── */
+  color: #dde6f2;
+  transition: background 0.18s ease, border-color 0.18s ease,
+              color 0.18s ease, transform 0.18s ease;
+  line-height: 1.4;
+}
+.quick-btn:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+}
+
+/* ════════════════════════════
+   SEARCH + FILTER BAR
+   ════════════════════════════ */
+.search-bar {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.search-bar input {
+  flex: 1;
+  font-family: var(--f-ui);
+  font-size: 0.95rem;
+  font-weight: 400;
+  padding: 0.75rem 1.1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--blue-line);
+  color: var(--txt-main);
+  border-radius: var(--r-sm);
+  outline: none;
+  transition: border-color var(--trans), box-shadow var(--trans);
+}
+.search-bar input::placeholder { color: var(--txt-muted) }
+.search-bar input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(76,110,177,0.15);
+}
+
+.filter-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+}
+.filter-chip {
+  font-family: var(--f-ui);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 0.42rem 1rem;
+  border: 1px solid var(--blue-line);
+  border-radius: 30px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--txt-sub);
+  transition: all var(--trans);
+}
+.filter-chip:hover { color: var(--blue-lt); border-color: var(--blue) }
+.filter-chip.active {
+  background: linear-gradient(135deg, var(--blue), var(--teal));
+  color: #fff;
+  border-color: transparent;
+  font-weight: 600;
+  box-shadow: 0 3px 12px rgba(76,110,177,0.35);
+}
+
+/* ════════════════════════════
+   PANEL HEADERS
+   ════════════════════════════ */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+@media(max-width:920px) { .content-grid { grid-template-columns:1fr } }
+
+.panel-header {
+  font-family: var(--f-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--txt-sub);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--blue-line);
+}
+.panel-header .badge {
+  background: linear-gradient(135deg, var(--blue), var(--teal));
+  color: #fff;
+  font-family: var(--f-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.65rem;
+  border-radius: 20px;
+  line-height: 1.4;
+}
+
+/* ════════════════════════════
+   PERSON CARDS
+   ════════════════════════════ */
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.1rem;
+}
+.person-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-top: 3px solid var(--era-color, var(--gold));
+  border-radius: var(--r-md);
+  padding: 1.5rem 1.4rem 1.3rem;
+  cursor: pointer;
+  transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans), background var(--trans);
+  position: relative;
+  overflow: hidden;
+}
+.person-card::after {
+  content: '';
+  position: absolute; inset:0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 60%);
+  pointer-events: none;
+}
+.person-card:hover {
+  background: var(--bg-card-h);
+  border-color: var(--era-color, var(--gold));
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+.person-emoji {
+  font-size: 2.6rem;
+  display: block;
+  margin-bottom: 0.75rem;
+  line-height: 1;
+}
+.person-name {
+  font-family: var(--f-display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--txt-hi);
+  margin-bottom: 0.3rem;
+  line-height: 1.25;
+}
+.person-role {
+  font-family: var(--f-ui);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--txt-sub);
+  margin-bottom: 0.55rem;
+  line-height: 1.45;
+}
+.person-dates {
+  font-family: var(--f-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.03em;
+}
+.person-age {
+  font-family: var(--f-ui);
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--txt-muted);
+  margin-top: 0.15rem;
+}
+.stars {
+  color: var(--gold);
+  font-size: 0.7rem;
+  margin-top: 0.5rem;
+  letter-spacing: 0.08em;
+}
+.person-card .era-pill {
+  display: inline-block;
+  font-family: var(--f-ui);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.12rem 0.5rem;
+  border-radius: 10px;
+  border: 1px solid;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+/* ════════════════════════════
+   EVENTS PANEL
+   ════════════════════════════ */
+.events-panel {
+  max-height: 680px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+.events-panel::-webkit-scrollbar { width: 5px }
+.events-panel::-webkit-scrollbar-track { background: transparent }
+.events-panel::-webkit-scrollbar-thumb { background: var(--gold-line); border-radius: 3px }
+.events-panel::-webkit-scrollbar-thumb:hover { background: var(--gold) }
+
+.event-item {
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 4px solid var(--era-color, var(--gold));
+  border-radius: var(--r-sm);
+  padding: 1.15rem 1.25rem;
+  margin-bottom: 0.9rem;
+  cursor: pointer;
+  transition: transform var(--trans), background var(--trans), border-color var(--trans);
+}
+.event-item:hover {
+  background: var(--bg-card-h);
+  border-left-color: var(--era-color, var(--gold));
+  transform: translateX(5px);
+}
+.event-year {
+  font-family: var(--f-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+}
+.event-title {
+  font-family: var(--f-display);
+  font-size: 0.96rem;
+  color: var(--txt-hi);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  line-height: 1.35;
+}
+.event-desc {
+  font-family: var(--f-body);
+  font-size: 0.93rem;
+  color: var(--txt-sub);
+  line-height: 1.62;
+}
+.event-type {
+  display: inline-block;
+  font-family: var(--f-ui);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.6rem;
+  border-radius: 10px;
+  background: var(--teal-dim);
+  color: var(--teal-lt);
+  margin-top: 0.55rem;
+  border: 1px solid rgba(1,164,164,0.25);
+}
+
+/* ════════════════════════════
+   MODAL
+   ════════════════════════════ */
+.modal {
+  display: none;
+  position: fixed; inset:0;
+  z-index: 1000;
+  background: rgba(4,6,12,0.85);
+  backdrop-filter: blur(10px);
+  padding: 2rem 1rem;
+  overflow-y: auto;
+}
+.modal.open { display: flex; align-items: flex-start; justify-content: center }
+.modal-inner {
+  background: var(--bg-modal);
+  border: 1px solid var(--gold-line);
+  border-radius: var(--r-lg);
+  max-width: 720px;
+  width: 100%;
+  padding: 2.75rem 2.75rem 2.25rem;
+  position: relative;
+  animation: slideUp 0.28s cubic-bezier(0.34,1.56,0.64,1) both;
+  margin: auto;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 40px rgba(201,149,42,0.08);
+}
+.modal-close {
+  position: absolute; top: 1.25rem; right: 1.5rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--txt-sub);
+  font-size: 1rem;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items:center; justify-content:center;
+  transition: all var(--trans);
+}
+.modal-close:hover { background: rgba(255,255,255,0.12); color: var(--txt-hi) }
+.modal-emoji { font-size: 4rem; display:block; margin-bottom: 1rem; line-height:1 }
+.modal-name {
+  font-family: var(--f-display);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--txt-hi);
+  margin-bottom: 0.35rem;
+  line-height: 1.15;
+}
+.modal-role {
+  font-family: var(--f-ui);
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--teal-lt);
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.06em;
+}
+.modal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+.meta-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: var(--r-sm);
+  padding: 0.6rem 1.1rem;
+  min-width: 100px;
+}
+.meta-label {
+  font-family: var(--f-ui);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--txt-muted);
+  display: block;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+.meta-value {
+  font-family: var(--f-ui);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--txt-hi);
+  line-height: 1.3;
+}
+.modal-desc {
+  font-family: var(--f-body);
+  font-size: 1.08rem;
+  line-height: 1.85;
+  color: var(--txt-main);
+  margin-bottom: 1.25rem;
+}
+.modal-verses {
+  font-family: var(--f-ui);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  opacity: 0.85;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-top: 0.85rem;
+}
+.lifespan-label {
+  font-family: var(--f-display);
+  font-size: 0.68rem;
+  color: var(--txt-sub);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+}
+
+/* ════════════════════════════
+   EMPTY STATE
+   ════════════════════════════ */
+.no-results {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--txt-sub);
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 1rem;
+}
+
+/* ════════════════════════════
+   FOOTER
+   ════════════════════════════ */
+footer {
+  background: var(--bg-base);
+  border-top: 1px solid var(--gold-line);
+  padding: 3.5rem 2rem;
+  text-align: center;
+  margin-top: 5rem;
+  position: relative; z-index:1;
+}
+/* ── Accent bar (brand divider) ── */
+.brand-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+  border-radius: 2px;
+  width: 48px;
+  margin: 0.75rem auto 0;
+}
+
+footer h3 {
+  font-family: var(--f-ui);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-lt);
+  margin-bottom: 1rem;
+}
+footer p {
+  font-family: var(--f-body);
+  font-size: 0.95rem;
+  color: var(--txt-sub);
+  line-height: 1.9;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ════════════════════════════
+   ANIMATIONS
+   ════════════════════════════ */
+@keyframes fadeDown {
+  from { opacity:0; transform:translateY(-22px) }
+  to   { opacity:1; transform:translateY(0) }
+}
+@keyframes bounce {
+  0%,100% { transform:translateY(0) }
+  50%     { transform:translateY(7px) }
+}
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(28px) scale(0.97) }
+  to   { opacity:1; transform:translateY(0)   scale(1) }
+}
+.fade-in {
+  opacity:0; transform:translateY(18px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.fade-in.visible { opacity:1; transform:none }
+
+/* ════════════════════════════
+   RESPONSIVE TWEAKS
+   ════════════════════════════ */
+@media(max-width:640px){
+  .year-selector { padding:1.75rem 1.25rem 1.5rem }
+  .modal-inner   { padding:2rem 1.5rem 1.75rem }
+  .modal-name    { font-size:1.6rem }
+  .timeline-section { padding:3rem 1rem 2rem }
+  .era-tab       { padding:0.75rem 0.8rem; font-size:0.74rem }
+}
+</style>
+</head>
+<body>
+
+<!-- Stars Background -->
+<div id="stars"><canvas id="starsCanvas"></canvas></div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div style="position:relative;z-index:2;max-width:860px;width:100%">
+    <p class="hero-eyebrow">Cronología Sagrada · Desde el Génesis hasta el Apocalipsis</p>
+    <h1 class="hero-title">LA GRAN<br>HISTORIA BÍBLICA</h1>
+    <p class="hero-sub">Explora 4 000 años de historia, personajes y eventos</p>
+    <p class="hero-dates">~ 4000 a.C. &nbsp;·&nbsp; 106 años &nbsp;·&nbsp; 100 d.C. ~</p>
+    <button class="hero-btn" onclick="document.getElementById('timeline-sec').scrollIntoView({behavior:'smooth'})">EXPLORAR LA HISTORIA</button>
+  </div>
+  <div class="hero-scroll">DESPLAZAR</div>
+</section>
+
+<!-- ERA NAV -->
+<nav class="era-nav" id="era-nav">
+  <div class="era-tabs" id="era-tabs"></div>
+</nav>
+
+<!-- MAIN SECTION -->
+<section class="timeline-section fade-in" id="timeline-sec">
+  <h2 class="section-title">LÍNEA DEL TIEMPO</h2>
+  <div class="section-divider"></div>
+
+  <!-- YEAR SELECTOR -->
+  <div class="year-selector">
+    <div class="year-display-big" id="year-display">4000 a.C.</div>
+    <div class="era-label" id="era-label">Período de la Creación</div>
+
+    <!-- Timeline bar -->
+    <div class="timeline-bar-wrap">
+      <div class="timeline-bar" id="timeline-bar"></div>
+      <div class="timeline-needle" id="needle"></div>
+    </div>
+
+    <input type="range" id="year-slider" min="-4000" max="100" value="-4000" step="1">
+    <div class="slider-labels">
+      <span>4000 a.C.</span><span>3000 a.C.</span><span>2000 a.C.</span><span>1000 a.C.</span><span>500 a.C.</span><span>100 d.C.</span>
+    </div>
+
+    <div class="manual-year">
+      <input type="number" id="manual-num" placeholder="ej: 586" min="1" max="4000">
+      <select id="manual-era">
+        <option value="BC">a.C.</option>
+        <option value="AD">d.C.</option>
+      </select>
+      <button class="go-btn" onclick="goToManualYear()">IR</button>
+    </div>
+
+    <div class="quick-jumps-wrap">
+      <div class="quick-jumps-label">Saltos rápidos a momentos clave</div>
+      <div class="quick-jumps" id="quick-jumps"></div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Buscar personaje o evento..." oninput="filterContent()">
+  </div>
+  <div class="filter-row" id="filter-row">
+    <button class="filter-chip active" onclick="setFilter('all',this)">Todos</button>
+    <button class="filter-chip" onclick="setFilter('prophet',this)">Profetas</button>
+    <button class="filter-chip" onclick="setFilter('king',this)">Reyes</button>
+    <button class="filter-chip" onclick="setFilter('patriarch',this)">Patriarcas</button>
+    <button class="filter-chip" onclick="setFilter('apostle',this)">Apóstoles</button>
+    <button class="filter-chip" onclick="setFilter('judge',this)">Jueces</button>
+    <button class="filter-chip" onclick="setFilter('woman',this)">Mujeres</button>
+  </div>
+
+  <!-- CONTENT GRID -->
+  <div class="content-grid">
+    <div>
+      <div class="panel-header">👤 PERSONAJES DE ESTA ÉPOCA <span class="badge" id="people-count">0</span></div>
+      <div class="people-grid" id="people-grid"></div>
+    </div>
+    <div>
+      <div class="panel-header">⚡ EVENTOS RELEVANTES <span class="badge" id="events-count">0</span></div>
+      <div class="events-panel" id="events-list"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="person-modal" onclick="closeModal(event)">
+  <div class="modal-inner" id="modal-inner">
+    <button class="modal-close" onclick="document.getElementById('person-modal').classList.remove('open')">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<footer>
+  <h3>La Gran Historia Bíblica</h3>
+  <p>Cronología basada en la tradición bíblica y estudios académicos. Las fechas del período anterior al diluvio (antes de ~2000 a.C.) son aproximadas y siguen la cronología de Ussher y otras fuentes teológicas tradicionales. Las fechas del período del Nuevo Testamento tienen mayor precisión histórica.</p>
+  <p style="margin-top:1rem;color:#5a4a30;font-size:0.75rem">Referencias: Génesis — Apocalipsis &nbsp;|&nbsp; Cronología de Ussher &nbsp;|&nbsp; Chronological Study Bible</p>
+</footer>
+
+<script>
+// ===================== DATA =====================
+
+const ERAS = [
+  {id:'creation',   label:'Creación',         start:-4000, end:-2349, color:'#4a90d9'},
+  {id:'patriarchs', label:'Patriarcas',        start:-2348, end:-1527, color:'#7b68ee'},
+  {id:'egypt',      label:'Éxodo',             start:-1526, end:-1407, color:'#e8a135'},
+  {id:'conquest',   label:'Conquista',         start:-1406, end:-1381, color:'#e67e22'},
+  {id:'judges',     label:'Jueces',            start:-1380, end:-1051, color:'#b85450'},
+  {id:'kingdom',    label:'Reino Unido',       start:-1050, end:-931,  color:'#9b59b6'},
+  {id:'divided',    label:'Reino Dividido',    start:-930,  end:-587,  color:'#c0392b'},
+  {id:'exile',      label:'Exilio',            start:-586,  end:-539,  color:'#2980b9'},
+  {id:'return',     label:'Restauración',      start:-538,  end:-431,  color:'#27ae60'},
+  {id:'inter',      label:'Intertestamental',  start:-430,  end:-6,    color:'#7f8c8d'},
+  {id:'nt',         label:'Nuevo Testamento',  start:-5,    end:100,   color:'#f39c12'},
+];
+
+const PEOPLE = [
+  // --- CREATION ---
+  {id:1,  name:'Adán',        role:'Primer hombre creado',      emoji:'🌿', born:-4000, died:-3070, age:930,  era:'creation',   type:'patriarch', sig:5, desc:'Primer ser humano creado por Dios a su imagen y semejanza. Vivió en el huerto del Edén hasta la caída. Padre de Caín, Abel y Set.', verses:'Génesis 1–5', family:'Eva (esposa), Caín, Abel, Set', nationality:'Primer hombre'},
+  {id:2,  name:'Eva',         role:'Primera mujer',             emoji:'🌸', born:-4000, died:-3100, age:900,  era:'creation',   type:'woman',     sig:5, desc:'Creada de la costilla de Adán, primera mujer. Tentada por la serpiente, comió del fruto prohibido. Madre de toda la humanidad.', verses:'Génesis 2–4', family:'Adán (esposo), Caín, Abel, Set', nationality:'Primera mujer'},
+  {id:3,  name:'Caín',        role:'Primer homicida de la historia', emoji:'⚔️', born:-3874, died:null, age:null, era:'creation',  type:'patriarch', sig:3, desc:'Primer hijo de Adán y Eva. Labrador que mató a su hermano Abel por envidia. Dios lo marcó y fue desterrado a la tierra de Nod.', verses:'Génesis 4', family:'Abel, Set (hermanos)', nationality:'Hijo de Adán'},
+  {id:4,  name:'Abel',        role:'Primer mártir de la historia', emoji:'🐑', born:-3873, died:-3850, age:23,  era:'creation',  type:'patriarch', sig:4, desc:'Segundo hijo de Adán y Eva. Pastor cuya ofrenda agradó a Dios. Asesinado por su hermano Caín, convirtiéndose en el primer mártir.', verses:'Génesis 4; Hebreos 11:4', family:'Caín, Set (hermanos)', nationality:'Hijo de Adán'},
+  {id:5,  name:'Set',         role:'Patriarca antediluviano',   emoji:'🏛️', born:-3869, died:-2957, age:912,  era:'creation',  type:'patriarch', sig:3, desc:'Tercer hijo de Adán y Eva, nacido como reemplazo de Abel. Padre de Enós, de quien desciende la línea que lleva a Noé y finalmente a Cristo.', verses:'Génesis 4–5; Lucas 3:38', family:'Adán y Eva (padres)', nationality:'Hijo de Adán'},
+  {id:6,  name:'Enoc',        role:'Varón que caminó con Dios', emoji:'✨', born:-3382, died:-3017, age:365,  era:'creation',  type:'prophet',   sig:5, desc:'Séptima generación desde Adán. Anduvo con Dios 300 años. A los 365 años "Dios lo llevó" sin pasar por la muerte, trasladado directamente al cielo. Símbolo de comunión perfecta con Dios. Prefigura la traslación de los creyentes.', verses:'Génesis 5:21-24; Hebreos 11:5; Judas 14', family:'Jared (padre), Matusalén (hijo)', nationality:'Descendiente de Set'},
+  {id:7,  name:'Matusalén',   role:'El hombre más longevo de la Biblia', emoji:'👴', born:-3317, died:-2348, age:969, era:'creation', type:'patriarch', sig:3, desc:'Hijo de Enoc, abuelo de Noé. Vivió 969 años, la vida más larga registrada en la Biblia. Su muerte coincidió con el año del Diluvio.', verses:'Génesis 5:21-27', family:'Enoc (padre), Noé (nieto)', nationality:'Descendiente de Set'},
+  {id:8,  name:'Noé',         role:'Constructor del Arca',      emoji:'🚢', born:-2948, died:-1998, age:950,  era:'creation',  type:'patriarch', sig:5, desc:'Varón justo y perfecto en su generación. Dios le ordenó construir el Arca para salvar a su familia y a los animales del diluvio. Después del diluvio, Dios hizo un pacto con él representado por el arco iris.', verses:'Génesis 6–9', family:'Sem, Cam, Jafet (hijos)', nationality:'Descendiente de Set'},
+  // --- PATRIARCHS ---
+  {id:9,  name:'Abraham',     role:'Padre de la fe',            emoji:'⭐', born:-2166, died:-1991, age:175,  era:'patriarchs', type:'patriarch', sig:5, desc:'Llamado por Dios para salir de Ur de los caldeos. Recibió el pacto de la circuncisión y la promesa de una descendencia tan numerosa como las estrellas. Fue probado al ofrecer a su hijo Isaac. Padre de judíos, árabes y por fe, de todos los creyentes.', verses:'Génesis 12–25; Hebreos 11:8-19', family:'Sara (esposa), Isaac, Ismael (hijos), Lot (sobrino)', nationality:'Caldeo de Ur'},
+  {id:10, name:'Sara',        role:'Madre de las naciones',     emoji:'👸', born:-2156, died:-2029, age:127,  era:'patriarchs', type:'woman',     sig:4, desc:'Esposa de Abraham. A los 90 años, milagrosamente concibió a Isaac por promesa divina. Única mujer en la Biblia cuya edad de muerte se registra. Considerada madre espiritual de todos los fieles.', verses:'Génesis 12–23; 1 Pedro 3:6', family:'Abraham (esposo), Isaac (hijo)', nationality:'Caldea de Ur'},
+  {id:11, name:'Lot',         role:'Sobrino de Abraham',        emoji:'🏙️', born:-2136, died:-2000, age:136,  era:'patriarchs', type:'patriarch', sig:3, desc:'Sobrino de Abraham que lo acompañó desde Ur. Eligió habitar en Sodoma. Fue rescatado por Dios antes de la destrucción de Sodoma y Gomorra. Su esposa se convirtió en estatua de sal.', verses:'Génesis 11–19', family:'Abraham (tío)', nationality:'Caldeo'},
+  {id:12, name:'Ismael',      role:'Hijo de Abraham y Agar',    emoji:'🏹', born:-2080, died:-1943, age:137,  era:'patriarchs', type:'patriarch', sig:3, desc:'Primer hijo de Abraham, nacido de Agar (sierva egipcia). Aunque no era el hijo de la promesa, Dios también lo bendijo. Considerado el padre de los pueblos árabes.', verses:'Génesis 16, 21, 25', family:'Abraham (padre), Agar (madre), Isaac (medio hermano)', nationality:'Mitad caldeo, mitad egipcio'},
+  {id:13, name:'Isaac',       role:'Hijo de la promesa',        emoji:'🎯', born:-2066, died:-1886, age:180,  era:'patriarchs', type:'patriarch', sig:5, desc:'Hijo milagroso de Abraham y Sara nacido cuando él tenía 100 años. Fue llevado al monte Moriah en sacrificio simbólico, prefiguración de Cristo. Padre de Jacob y Esaú.', verses:'Génesis 21–27; Hebreos 11:17-20', family:'Abraham (padre), Sara (madre), Rebeca (esposa), Jacob, Esaú (hijos)', nationality:'Canaán'},
+  {id:14, name:'Rebeca',      role:'Esposa de Isaac',           emoji:'💎', born:-2026, died:-1943, age:83,   era:'patriarchs', type:'woman',     sig:3, desc:'Mujer de gran belleza y hospitalidad escogida por Dios para ser esposa de Isaac. Madre de gemelos: Esaú y Jacob. Favoreció a Jacob sobre Esaú, influyendo en la transmisión de la bendición.', verses:'Génesis 24–27', family:'Isaac (esposo), Jacob, Esaú (hijos)', nationality:'Aramea de Harán'},
+  {id:15, name:'Jacob / Israel', role:'Patriarca de las 12 tribus', emoji:'🌟', born:-2006, died:-1859, age:147, era:'patriarchs', type:'patriarch', sig:5, desc:'Segundo hijo de Isaac y Rebeca. Luchó con un ángel y fue renombrado "Israel". Sus 12 hijos se convirtieron en las 12 tribus de Israel. Vivió en Egipto al final de su vida junto a José.', verses:'Génesis 25–50', family:'Isaac (padre), Rebeca (madre), Lea, Raquel (esposas), 12 hijos', nationality:'Canaán'},
+  {id:16, name:'José',        role:'El soñador / Gobernador de Egipto', emoji:'👑', born:-1915, died:-1805, age:110, era:'patriarchs', type:'patriarch', sig:5, desc:'Undécimo hijo de Jacob, favorito de su padre. Vendido como esclavo por sus hermanos, interpretó los sueños del Faraón y fue elevado a segundo gobernador de Egipto. Su historia es una de las más bellas de la Biblia y prefigura la vida de Cristo.', verses:'Génesis 37–50', family:'Jacob (padre), Raquel (madre), 11 hermanos, Manasés, Efraín (hijos)', nationality:'Hebreo en Egipto'},
+  {id:17, name:'Job',         role:'El varón más íntegro de su tiempo', emoji:'🕊️', born:-2000, died:-1800, age:200, era:'patriarchs', type:'prophet', sig:5, desc:'Hombre justo y perfecto que sufrió pérdidas enormes por permisión divina para demostrar su integridad. Resistió la prueba y Dios restauró su vida doblemente. Su historia aborda el gran tema del sufrimiento del justo.', verses:'Job 1–42', family:'Esposa e hijos (murieron y fueron restaurados)', nationality:'Tierra de Uz (posiblemente Arabia)'},
+  // --- EXODUS ---
+  {id:18, name:'Moisés',      role:'Libertador y Legislador de Israel', emoji:'⚡', born:-1526, died:-1406, age:120, era:'egypt', type:'prophet', sig:5, desc:'Nacido hebreo, criado en el palacio del Faraón. Llamado por Dios en la zarza ardiente para liberar a Israel de la esclavitud. Recibió los Diez Mandamientos en el Sinaí. Condujo a Israel 40 años por el desierto. Escribió los primeros cinco libros de la Biblia.', verses:'Éxodo–Deuteronomio; Hebreos 11:24-29', family:'Aarón (hermano), Miriam (hermana), Séfora (esposa)', nationality:'Hebreo criado en Egipto'},
+  {id:19, name:'Aarón',       role:'Primer Sumo Sacerdote de Israel', emoji:'🏺', born:-1529, died:-1407, age:123, era:'egypt', type:'priest', sig:4, desc:'Hermano mayor de Moisés, su portavoz ante el Faraón. Fue consagrado como el primer Sumo Sacerdote de Israel. Construyó el becerro de oro en el desierto. Sus descendientes conformaron el sacerdocio levítico.', verses:'Éxodo 4–40; Levítico; Números', family:'Moisés (hermano), Miriam (hermana), Nadab, Abiú, Eleazar (hijos)', nationality:'Hebreo en Egipto'},
+  {id:20, name:'Miriam',      role:'Profetisa y líder del éxodo', emoji:'🎶', born:-1533, died:-1406, age:127, era:'egypt', type:'woman', sig:3, desc:'Hermana mayor de Moisés y Aarón. Cuidó al bebé Moisés en el Nilo. Profetisa y líder de las mujeres de Israel. Dirigió el cántico de alabanza tras cruzar el Mar Rojo.', verses:'Éxodo 2; 15:20-21; Números 12', family:'Moisés, Aarón (hermanos)', nationality:'Hebrea en Egipto'},
+  {id:21, name:'Caleb',       role:'Espía fiel de la tierra prometida', emoji:'🦁', born:-1476, died:-1369, age:107, era:'egypt', type:'judge', sig:3, desc:'Uno de los doce espías enviados a Canaán. Junto con Josué, dio un informe de fe positivo mientras los otros 10 atemorizaron al pueblo. A los 85 años reclamó su heredad en Hebrón y la conquistó.', verses:'Números 13–14; Josué 14', family:'Tribu de Judá', nationality:'Hebreo, tribu de Judá'},
+  {id:22, name:'Josué',       role:'Sucesor de Moisés, conquistador de Canaán', emoji:'⚔️', born:-1476, died:-1356, age:110, era:'conquest', type:'judge', sig:5, desc:'Sucesor de Moisés como líder de Israel. Condujo al pueblo a cruzar el Jordán y conquistar Canaán. Bajo su liderazgo cayeron los muros de Jericó al son de trompetas. Repartió la tierra entre las tribus de Israel.', verses:'Números 13–14; Josué 1–24; Hebreos 4:8', family:'Tribu de Efraín', nationality:'Hebreo, tribu de Efraín'},
+  // --- JUDGES ---
+  {id:23, name:'Débora',      role:'Profetisa y Jueza de Israel', emoji:'🌴', born:-1200, died:-1140, age:60, era:'judges', type:'judge', sig:4, desc:'Única mujer jueza registrada en la Biblia. Profetisa que gobernó a Israel bajo una palmera. Animó a Barac a luchar contra el ejército de Sísara, y bajo su liderazgo Israel derrotó al poderoso ejército cananeo.', verses:'Jueces 4–5', family:'Lapidot (esposo)', nationality:'Israelita, tribu de Efraín'},
+  {id:24, name:'Gedeón',      role:'Juez que derrotó a los madianitas con 300 hombres', emoji:'🏺', born:-1162, died:-1122, age:40, era:'judges', type:'judge', sig:4, desc:'Llamado por un ángel mientras trillaba trigo escondido. Con solo 300 hombres y antorchas en cántaros de barro, derrotó al ejército madianita de 135.000. Su estrategia es un modelo de fe y obediencia.', verses:'Jueces 6–8', family:'Joás (padre), 70 hijos', nationality:'Israelita, tribu de Manasés'},
+  {id:25, name:'Sansón',      role:'Juez dotado de fuerza sobrenatural', emoji:'💪', born:-1069, died:-1049, age:20, era:'judges', type:'judge', sig:4, desc:'Consagrado a Dios desde el vientre como nazareo. Dotado de fuerza sobrenatural. Mató a 1.000 filisteos con una quijada de asno. Fue engañado por Dalila quien le cortó el cabello. En su muerte mató más filisteos que en toda su vida.', verses:'Jueces 13–16', family:'Manoa (padre), Dalila (amante filistea)', nationality:'Israelita, tribu de Dan'},
+  {id:26, name:'Rut',         role:'Moabita fiel, antepasada de David', emoji:'🌾', born:-1100, died:-1060, age:40, era:'judges', type:'woman', sig:4, desc:'Moabita que eligió permanecer fiel a su suegra Noemí con las famosas palabras: "A donde tú vayas yo iré". Se casó con Booz, el pariente redentor. Bisabuela del rey David, y antepasada de Jesucristo.', verses:'Rut 1–4; Mateo 1:5', family:'Noemí (suegra), Booz (esposo), Obed (hijo)', nationality:'Moabita'},
+  {id:27, name:'Samuel',      role:'Último Juez y primer gran Profeta', emoji:'📜', born:-1105, died:-1015, age:90, era:'judges', type:'prophet', sig:5, desc:'Nacido de la oración de su madre Ana, fue dedicado al Señor desde niño. Escuchó la voz de Dios a los 12 años. Fue juez, sacerdote y profeta. Ungió a Saúl y luego a David como reyes de Israel. Fundó escuelas de profetas.', verses:'1 Samuel 1–28; Hebreos 11:32', family:'Elcana (padre), Ana (madre)', nationality:'Israelita, tribu de Efraín'},
+  // --- UNITED KINGDOM ---
+  {id:28, name:'Saúl',        role:'Primer Rey de Israel',      emoji:'👑', born:-1080, died:-1010, age:70, era:'kingdom', type:'king', sig:4, desc:'Primer rey de Israel ungido por Samuel. Imponente en estatura. Comenzó bien pero desobedeció a Dios repetidamente. Su reino fue rechazado y el Espíritu de Dios se retiró de él. Murió en la batalla de Gilboa junto a sus hijos.', verses:'1 Samuel 9–31', family:'Jonatán (hijo), Mical (hija)', nationality:'Israelita, tribu de Benjamín'},
+  {id:29, name:'Jonatán',     role:'El amigo más fiel de David', emoji:'🤝', born:-1060, died:-1010, age:50, era:'kingdom', type:'king', sig:3, desc:'Hijo mayor del rey Saúl y heredero al trono. Su amistad con David es el ejemplo máximo de amistad en la Biblia: "Te ama como a sí mismo". Cedió voluntariamente el derecho al trono en favor de David. Murió en combate con su padre.', verses:'1 Samuel 18–31', family:'Saúl (padre), Mefiboset (hijo)', nationality:'Israelita, tribu de Benjamín'},
+  {id:30, name:'David',       role:'El Rey conforme al corazón de Dios', emoji:'🎵', born:-1040, died:-970, age:70, era:'kingdom', type:'king', sig:5, desc:'Pastor, poeta, guerrero y rey. Mató al gigante Goliat de niño. Compuso la mayoría de los Salmos. Conquistó Jerusalén como capital. Dios le prometió un trono eterno que se cumple en Cristo. A pesar de sus pecados, se arrepentía sinceramente.', verses:'1 Samuel 16 – 1 Reyes 2; Salmos', family:'Jonatán (amigo), Betsabé (esposa principal), Salomón (sucesor)', nationality:'Israelita, tribu de Judá (Belén)'},
+  {id:31, name:'Betsabé',     role:'Esposa de David, madre de Salomón', emoji:'👸', born:-1010, died:-962, age:48, era:'kingdom', type:'woman', sig:3, desc:'Su historia comenzó trágicamente con el pecado de David. Sin embargo, llegó a ser la reina madre más influyente de Israel. Intercedió ante David para que Salomón heredara el trono. Símbolo de restauración divina tras el pecado.', verses:'2 Samuel 11–12; 1 Reyes 1–2', family:'Urías (primer esposo), David (segundo esposo), Salomón (hijo)', nationality:'Israelita'},
+  {id:32, name:'Salomón',     role:'El Rey más sabio del mundo',emoji:'📖', born:-991, died:-931, age:60, era:'kingdom', type:'king', sig:5, desc:'Pidió sabiduría a Dios antes que riquezas. Su reinado fue la cúspide del esplendor israelita. Construyó el Templo de Jerusalén. Escribió Proverbios, Eclesiastés y el Cantar de los Cantares. Sin embargo, sus muchas esposas extranjeras desviaron su corazón de Dios en su vejez.', verses:'1 Reyes 1–11; Proverbios; Eclesiastés; Cantares', family:'David (padre), Betsabé (madre)', nationality:'Israelita, tribu de Judá'},
+  // --- DIVIDED KINGDOM ---
+  {id:33, name:'Elías',       role:'El gran profeta del fuego', emoji:'🔥', born:-875, died:-848, age:null, era:'divided', type:'prophet', sig:5, desc:'Profeta de Dios que apareció sin genealogía ni historia previa. Anuló la lluvia durante 3 años. Derrotó a 450 profetas de Baal en el Monte Carmelo. Fue arrebatado al cielo en carro de fuego ~848 a.C. sin pasar por la muerte. Aparece junto a Moisés en la Transfiguración de Jesús.', verses:'1 Reyes 17–21; 2 Reyes 1–2; Malaquías 4:5', family:'Eliseo (discípulo)', nationality:'Israelita de Tisbe, Galaad'},
+  {id:34, name:'Eliseo',      role:'Profeta de los milagros',   emoji:'💧', born:-848, died:-797, age:51, era:'divided', type:'prophet', sig:4, desc:'Discípulo de Elías que pidió doble porción de su espíritu. Realizó el doble de milagros que Elías: multiplicó aceite de viuda, resucitó al hijo de la sunamita, sanó a Naamán de lepra, hizo flotar un hacha de hierro, y otros.', verses:'2 Reyes 2–13', family:'Safat (padre), Elías (maestro)', nationality:'Israelita de Abel-meholá'},
+  {id:35, name:'Acab',        role:'El rey más malvado de Israel', emoji:'⚫', born:-874, died:-853, age:21, era:'divided', type:'king', sig:3, desc:'Rey de Israel del norte. Casó con Jezabel e introdujo el culto a Baal masivamente en Israel. Considerado el rey más malvado de Israel. Su historia con Elías es uno de los grandes conflictos bíblicos entre el bien y el mal.', verses:'1 Reyes 16–22', family:'Jezabel (esposa)', nationality:'Israelita, tribu de Efraín'},
+  {id:36, name:'Jezabel',     role:'La reina más perversa de la Biblia', emoji:'🐍', born:-880, died:-841, age:39, era:'divided', type:'woman', sig:3, desc:'Princesa fenicia que casó con el rey Acab. Introdujo el culto a Baal con 850 profetas paganos. Persiguió y mató a los profetas de Dios. Ejecutó ilegalmente a Nabot para robar su viña. Murió arrojada desde una ventana, como profetizó Elías.', verses:'1 Reyes 16–21; 2 Reyes 9', family:'Acab (esposo)', nationality:'Fenicia (Sidón)'},
+  {id:37, name:'Isaías',      role:'El Príncipe de los Profetas', emoji:'📜', born:-760, died:-680, age:80, era:'divided', type:'prophet', sig:5, desc:'El más grande de los profetas escritores. Profetizó con asombrosa precisión la vida de Cristo 700 años antes: nacimiento virginal, ministerio en Galilea, entrada en Jerusalén, sufrimiento del siervo, crucifixión. Su libro es llamado "el quinto evangelio". Murió aserrado por Manasés.', verses:'Isaías 1–66; citado más de 400 veces en NT', family:'Amoz (padre), Esposa y dos hijos', nationality:'Israelita de Jerusalén'},
+  {id:38, name:'Jeremías',    role:'El Profeta Llorón',         emoji:'😢', born:-645, died:-585, age:60, era:'divided', type:'prophet', sig:5, desc:'Llamado desde el vientre materno. Profetizó durante 40 años sin ver frutos aparentes. Anunció la destrucción de Jerusalén y el exilio babilónico. Fue perseguido, encarcelado y arrojado a un pozo. Profetizó el nuevo pacto (Jer. 31:31) que se cumple en Cristo.', verses:'Jeremías 1–52; Lamentaciones', family:'Hilcías (padre sacerdote), Baruc (secretario)', nationality:'Israelita de Anatot'},
+  {id:39, name:'Josías',      role:'El rey reformador más piadoso', emoji:'📖', born:-648, died:-609, age:39, era:'divided', type:'king', sig:4, desc:'Rey de Judá que comenzó a reinar a los 8 años. A los 16 buscó al Dios de David. Ordenó reparar el Templo donde se halló el Libro de la Ley. Realizó la mayor reforma religiosa de Judá. Murió en batalla contra el Faraón Necao en Meguido.', verses:'2 Reyes 22–23; 2 Crónicas 34–35', family:'Amón (padre), 33 años de reinado', nationality:'Israelita, tribu de Judá'},
+  // --- EXILE ---
+  {id:40, name:'Daniel',      role:'Profeta en la corte de Babilonia', emoji:'🦁', born:-620, died:-535, age:85, era:'exile', type:'prophet', sig:5, desc:'Deportado a Babilonia a los 15 años. Mantuvo su fe en medio de la corte pagana. Interpretó los sueños de Nabucodonosor. Sobrevivió al foso de los leones. Sus profecías sobre los reinos mundiales y el fin de los tiempos son las más detalladas del AT.', verses:'Daniel 1–12; Mateo 24:15', family:'Sadrac, Mesac, Abednego (amigos)', nationality:'Israelita de Judá, noble'},
+  {id:41, name:'Ezequiel',    role:'Profeta de las visiones',   emoji:'👁️', born:-622, died:-570, age:52, era:'exile', type:'prophet', sig:4, desc:'Sacerdote-profeta deportado a Babilonia. Tuvo visiones de la gloria de Dios (carros con querubines). Profetizó el fin de Jerusalén y la restauración de Israel. El Valle de los Huesos Secos es su visión más famosa: la restauración nacional y espiritual de Israel.', verses:'Ezequiel 1–48', family:'Buzi (padre sacerdote)', nationality:'Israelita sacerdote en Babilonia'},
+  {id:42, name:'Ester',       role:'La reina que salvó a su pueblo', emoji:'👑', born:-492, died:-460, age:32, era:'return', type:'woman', sig:5, desc:'Huérfana judía criada por su primo Mardoqueo. Fue elegida reina del Imperio Persa. Con valentía se presentó ante el rey Asuero sin ser convocada para revelar el complot de Amán contra los judíos. Salvó a todo su pueblo con la famosa frase: "Si perezco, que perezca".', verses:'Ester 1–10', family:'Mardoqueo (primo/tutor), Asuero (esposo/rey)', nationality:'Judía en el Imperio Persa'},
+  {id:43, name:'Nehemías',    role:'Constructor de los muros de Jerusalén', emoji:'🏗️', born:-480, died:-420, age:60, era:'return', type:'judge', sig:4, desc:'Copero del rey Artajerjes que lloró al enterarse de la desolación de Jerusalén. Obtuvo permiso real y en solo 52 días reconstruyó los muros de Jerusalén frente a la oposición de enemigos. Modelo de liderazgo, oración y organización.', verses:'Nehemías 1–13', family:'Hacalías (padre)', nationality:'Judío, copero real en Susa'},
+  {id:44, name:'Esdras',      role:'Sacerdote escriba restaurador', emoji:'📚', born:-480, died:-440, age:40, era:'return', type:'priest', sig:4, desc:'Sacerdote y escriba experto en la Ley de Moisés. Lideró la segunda ola de retorno del exilio babilónico. Leyó la Ley públicamente ante el pueblo durante 7 días. Llevó a cabo reformas radicales contra los matrimonios mixtos que corrompían la pureza espiritual de Israel.', verses:'Esdras 7–10; Nehemías 8', family:'Seraías (padre, línea sacerdotal)', nationality:'Judío sacerdote en Babilonia'},
+  {id:45, name:'Malaquías',   role:'El último profeta del AT',  emoji:'🌅', born:-445, died:-395, age:50, era:'return', type:'prophet', sig:4, desc:'Último profeta del Antiguo Testamento. Reprendió al pueblo por su tibieza, ofrendas defectuosas y divorcios. Prometió el regreso del espíritu de Elías antes del gran día del Señor. Sus profecías cierran el AT con la promesa del Mesías que vendría 400 años después.', verses:'Malaquías 1–4', family:'Desconocida', nationality:'Israelita de Judá'},
+  // --- NEW TESTAMENT ---
+  {id:46, name:'Juan el Bautista', role:'Precursor del Mesías', emoji:'🕊️', born:-6, died:29, age:35, era:'nt', type:'prophet', sig:5, desc:'Hijo milagroso de Elizabet y Zacarías, nacido 6 meses antes que Jesús. Vivió en el desierto, vestía pelo de camello y comía langostas. Bautizaba en el Jordán llamando a arrepentimiento. Presentó a Jesús como "el Cordero de Dios". Fue decapitado por orden de Herodes Antipas.', verses:'Mateo 3; 11:11-14; Juan 1:19-36', family:'Zacarías (padre), Elizabet (madre), Jesús (primo)', nationality:'Israelita de Judá'},
+  {id:47, name:'Jesús de Nazaret', role:'El Mesías, Hijo de Dios', emoji:'✝️', born:-5, died:30, age:35, era:'nt', type:'messiah', sig:5, desc:'Centro de toda la historia bíblica. Nacido de virgen en Belén. Realizó miles de milagros: sanó enfermos, resucitó muertos, calmó tormentas, alimentó multitudes. Enseñó el Sermón del Monte. Fue crucificado por los pecados de la humanidad y resucitó al tercer día. Su vida divide la historia del mundo.', verses:'Mateo 1 – Juan 21; toda la Escritura apunta a Él', family:'María (madre), José (padre adoptivo), 4 hermanos', nationality:'Judío galileo de Nazaret'},
+  {id:48, name:'María (madre de Jesús)', role:'Madre del Mesías', emoji:'💙', born:-20, died:48, age:68, era:'nt', type:'woman', sig:5, desc:'Joven virgen de Nazaret elegida por Dios para ser la madre del Mesías. Aceptó la misión con fe: "Hágase en mí según tu palabra". Estuvo presente en la crucifixión. La Biblia la llama "bendita entre todas las mujeres". Figura central de fe y obediencia total a Dios.', verses:'Lucas 1–2; Juan 2; 19:25-27', family:'José (esposo), Jesús (hijo), Jacobo, Judas, Simón (hijos)', nationality:'Judía de Nazaret'},
+  {id:49, name:'Pedro / Simón Pedro', role:'Líder de los Apóstoles', emoji:'🪨', born:-1, died:67, age:68, era:'nt', type:'apostle', sig:5, desc:'Pescador rudo y apasionado que Jesús renombró "Pedro" (roca). Primer en confesar a Jesús como Cristo. Negó a Jesús tres veces pero fue restaurado. Predicó en Pentecostés y 3.000 se convirtieron. Líder de la iglesia primitiva. Fue crucificado cabeza abajo en Roma.', verses:'Mateo 14–16; Juan 21; Hechos 2; 1–2 Pedro', family:'Jonás (padre), Andrés (hermano)', nationality:'Judío galileo de Betsaida'},
+  {id:50, name:'Pablo de Tarso', role:'Apóstol a los Gentiles', emoji:'✉️', born:5, died:67, age:62, era:'nt', type:'apostle', sig:5, desc:'Fariseo que perseguía a los cristianos hasta que Cristo se le apareció en el camino a Damasco. Se convirtió en el misionero más grande de la historia. Realizó 3 viajes misioneros por el Imperio Romano. Escribió 13 cartas del NT. Fue decapitado en Roma bajo Nerón.', verses:'Hechos 9–28; Romanos–Filemón; Gálatas 1:12', family:'Tribu de Benjamín, ciudadano romano', nationality:'Judío-romano de Tarso, Cilicia'},
+  {id:51, name:'Juan el Apóstol', role:'El discípulo amado', emoji:'📖', born:6, died:100, age:94, era:'nt', type:'apostle', sig:5, desc:'El discípulo más joven y amado por Jesús. Presente en la transfiguración, la última cena y la cruz. Recibió el cuidado de María como hijo. Escribió el Evangelio de Juan, 3 Epístolas y el Apocalipsis. Único apóstol que no murió como mártir, murió de vejez en Éfeso.', verses:'Juan 1–21; 1–3 Juan; Apocalipsis', family:'Zebedeo (padre), Salomé (madre), Jacobo (hermano)', nationality:'Judío galileo de Betsaida'},
+  {id:52, name:'María Magdalena', role:'Primera testigo de la resurrección', emoji:'💜', born:-10, died:70, age:80, era:'nt', type:'woman', sig:4, desc:'Mujer de Magdala de quien Jesús expulsó siete demonios. Fiel seguidora que estuvo al pie de la cruz cuando los discípulos huyeron. Fue la primera persona a quien Jesús se apareció después de resucitar y la primera en proclamar: "¡He visto al Señor!"', verses:'Lucas 8:2; Juan 19:25; 20:1-18', family:'De Magdala, Galilea', nationality:'Judía de Magdala'},
+  {id:53, name:'Esteban',      role:'Primer mártir cristiano',  emoji:'💎', born:10, died:34, age:24, era:'nt', type:'apostle', sig:4, desc:'Uno de los primeros siete diáconos de la iglesia. Lleno del Espíritu Santo y sabiduría. Realizó grandes milagros. Su discurso ante el Sanedrín es uno de los más completos resúmenes de la historia de Israel. Fue apedreado hasta morir, perdonando a sus verdugos como Jesús. Su muerte desencadenó la persecución que dispersó el evangelio.', verses:'Hechos 6–7', family:'Desconocida', nationality:'Judío helenista'},
+  {id:54, name:'Nicodemo',     role:'Líder que buscó a Jesús de noche', emoji:'🌙', born:-20, died:70, age:90, era:'nt', type:'patriarch', sig:3, desc:'Fariseo y miembro del Sanedrín que visitó a Jesús de noche. Recibió la enseñanza más famosa de Jesús: "El que no naciere de nuevo no puede ver el reino de Dios" y Juan 3:16. Defendió a Jesús ante el Sanedrín y ayudó a enterrarlo con especias.', verses:'Juan 3:1-21; 7:50; 19:39', family:'Fariseo, Sanedrín', nationality:'Judío de Jerusalén'},
+  {id:55, name:'Lázaro',       role:'Resucitado por Jesús',     emoji:'⚰️', born:-5, died:70, age:75, era:'nt', type:'patriarch', sig:4, desc:'Amigo íntimo de Jesús de Betania. Murió y estuvo en la tumba cuatro días antes de que Jesús lo resucitara ante una gran multitud. Esta fue la señal más grande que llevó al Sanedrín a decidir matar a Jesús. Símbolo máximo de la autoridad de Cristo sobre la muerte.', verses:'Juan 11:1-44; 12:1-11', family:'Marta, María (hermanas)', nationality:'Judío de Betania'},
+
+  // --- CREACIÓN adicionales ---
+  {id:56, name:'Jared',        role:'Patriarca antediluviano, padre de Enoc', emoji:'🏔️', born:-3544, died:-2582, age:962, era:'creation', type:'patriarch', sig:2, desc:'Quinto patriarca desde Adán. Vivió 962 años, segundo más longevo después de Matusalén. Padre de Enoc, el hombre que caminó con Dios. Su vida se extiende desde los días de Adán casi hasta el diluvio.', verses:'Génesis 5:15-20', family:'Enoc (hijo)', nationality:'Descendiente de Set'},
+  {id:57, name:'Lamec',        role:'Padre de Noé, patriarca antediluviano', emoji:'👣', born:-3130, died:-2353, age:777, era:'creation', type:'patriarch', sig:2, desc:'Padre de Noé. Al nacer su hijo dijo: "Este nos aliviará de nuestras obras y del trabajo de nuestras manos". Vivió 777 años y murió apenas 5 años antes del diluvio universal.', verses:'Génesis 5:25-31', family:'Matusalén (padre), Noé (hijo)', nationality:'Descendiente de Set'},
+
+  // --- PATRIARCAS adicionales ---
+  {id:58, name:'Esaú',         role:'Hermano gemelo de Jacob', emoji:'🏹', born:-2006, died:-1940, age:66, era:'patriarchs', type:'patriarch', sig:3, desc:'Hijo mayor de Isaac y Rebeca, gemelo de Jacob. Cazador hábil y hombre del campo. Vendió su primogenitura por un plato de lentejas. Perdió la bendición paterna a manos de Jacob. Padre del pueblo de Edom.', verses:'Génesis 25–36', family:'Isaac (padre), Rebeca (madre), Jacob (hermano)', nationality:'Canaán'},
+  {id:59, name:'Raquel',       role:'Esposa amada de Jacob',  emoji:'🌹', born:-1988, died:-1910, age:78, era:'patriarchs', type:'woman', sig:4, desc:'Segunda esposa y gran amor de Jacob, por quien trabajó 14 años. Madre de José y Benjamín. Murió dando a luz a Benjamín cerca de Belén. Fue sepultada en el camino a Efrata. Jeremiás la vio en visión llorando por sus hijos.', verses:'Génesis 29–35; Jeremías 31:15; Mateo 2:18', family:'Labán (padre), Jacob (esposo), José, Benjamín (hijos)', nationality:'Aramea de Harán'},
+  {id:60, name:'Lea',          role:'Primera esposa de Jacob, madre de las tribus', emoji:'💛', born:-1990, died:-1855, age:135, era:'patriarchs', type:'woman', sig:3, desc:'Hija mayor de Labán, dada a Jacob mediante engaño. Aunque no amada como Raquel, Dios la bendijo con 6 hijos varones y una hija. Sus hijos Judá y Leví son ancestros de Cristo y del sacerdocio respectivamente.', verses:'Génesis 29–35', family:'Labán (padre), Jacob (esposo), Rubén, Simeón, Leví, Judá, Isacar, Zabulón, Dina (hijos)', nationality:'Aramea de Harán'},
+  {id:61, name:'Tamar',        role:'Mujer de determinación, ancestro de Cristo', emoji:'🌿', born:-1870, died:-1800, age:70, era:'patriarchs', type:'woman', sig:3, desc:'Nuera de Judá. Após ser injustamente retenida como viuda, disfrazó para concebir de Judá y obtener la justicia que le correspondía. Sus gemelos Fares y Zara son ancestros de la línea mesiánica. Mateo la incluye en la genealogía de Jesús.', verses:'Génesis 38; Mateo 1:3', family:'Judá (suegro), Er (primer esposo), Fares, Zara (hijos)', nationality:'Cananea'},
+
+  // --- ÉXODO adicionales ---
+  {id:62, name:'Jetro / Reuel', role:'Suegro de Moisés, sacerdote de Madián', emoji:'🔥', born:-1560, died:-1490, age:70, era:'egypt', type:'priest', sig:3, desc:'Sacerdote madianita de quien Moisés aprendió a delegar la autoridad. Padre de Séfora. Aconsejó a Moisés nombrar jueces para ayudarle a gobernar a Israel. Su consejo organizacional de "divide y delega" sigue siendo modelo de liderazgo hoy.', verses:'Éxodo 2:16-22; 18:1-27', family:'Séfora (hija), Moisés (yerno)', nationality:'Madianita'},
+  {id:63, name:'Rahab',        role:'Prostituta fiel que salvó a los espías', emoji:'🧵', born:-1420, died:-1350, age:70, era:'conquest', type:'woman', sig:4, desc:'Mujer de Jericó que escondió a los espías de Josué y los ayudó a escapar con un cordón escarlata en la ventana. Toda su familia fue salvada cuando cayeron los muros. Se casó con Salmón de Judá y se convirtió en bisabuela de David y ancestro de Jesús.', verses:'Josué 2; 6; Hebreos 11:31; Mateo 1:5', family:'Salmón (esposo), Boaz (hijo)', nationality:'Cananea de Jericó'},
+
+  // --- JUECES adicionales ---
+  {id:64, name:'Otoniel',      role:'Primer Juez de Israel',  emoji:'⚔️', born:-1380, died:-1330, age:50, era:'judges', type:'judge', sig:3, desc:'Primer juez de Israel. Sobrino de Caleb. Liberó a Israel del yugo de Cusán-risataim, rey de Mesopotamia. Bajo su liderazgo, la tierra tuvo paz 40 años. Modelo del ciclo recurrente de apostasía-juicio-clamor-liberación del libro de Jueces.', verses:'Jueces 3:7-11', family:'Caleb (tío), Acsa (esposa)', nationality:'Israelita, tribu de Judá'},
+  {id:65, name:'Ehud',         role:'El juez zurdo que liberó a Israel', emoji:'🗡️', born:-1340, died:-1270, age:70, era:'judges', type:'judge', sig:3, desc:'Segundo juez de Israel. Zurdo de la tribu de Benjamín. Liberó a Israel del rey moabita Eglón mediante una misión audaz: escondió una espada de doble filo en su muslo derecho y personalmente ejecutó al tirano. Israel tuvo paz 80 años.', verses:'Jueces 3:12-30', family:'Gera (padre)', nationality:'Israelita, tribu de Benjamín'},
+  {id:66, name:'Noemí',        role:'Suegra de Rut, símbolo de fidelidad familiar', emoji:'🌾', born:-1130, died:-1060, age:70, era:'judges', type:'woman', sig:3, desc:'Israelita de Belén que emigró a Moab con su familia. Perdió a su esposo y dos hijos. Al regresar, quiso llamarse "Mara" (amargura). La fidelidad de su nuera Rut y la providencia de Dios a través de Boaz la restauraron completamente.', verses:'Rut 1–4', family:'Elimelec (esposo), Rut, Orfa (nueras)', nationality:'Israelita de Belén'},
+  {id:67, name:'Boaz',         role:'Pariente redentor de Rut', emoji:'🌾', born:-1120, died:-1055, age:65, era:'judges', type:'judge', sig:3, desc:'Agricultor próspero y piadoso de Belén, pariente de Elimelec. Cumplió el papel de "pariente redentor" casándose con Rut la moabita. Bisabuelo del rey David. Su historia prefigura a Cristo como redentor de la humanidad.', verses:'Rut 2–4; Mateo 1:5', family:'Salmón (padre), Rahab (madre), Rut (esposa), Obed (hijo)', nationality:'Israelita de Belén'},
+  {id:68, name:'Elí',          role:'Sumo sacerdote y mentor de Samuel', emoji:'🏺', born:-1120, died:-1067, age:53, era:'judges', type:'priest', sig:3, desc:'Sumo sacerdote de Siló que crió al niño Samuel. Sus hijos Ofni y Finees eran corruptos y él no los corrigió. La profecía anunció el fin de su linaje sacerdotal. Al enterarse de que el Arca fue capturada por los filisteos, cayó de su silla y murió de golpe.', verses:'1 Samuel 1–4', family:'Ofni, Finees (hijos corruptos)', nationality:'Israelita, linaje de Aarón'},
+  {id:69, name:'Jefté',        role:'Juez que hizo un voto costoso', emoji:'⚔️', born:-1100, died:-1067, age:33, era:'judges', type:'judge', sig:3, desc:'Hijo de prostituta rechazado por sus hermanos y luego llamado para liberar a Israel de los amonitas. Hizo un voto imprudente a Dios prometiendo ofrecer lo primero que saliera de su casa. Victorioso en batalla, fue recibido por su propia hija. Su historia es una de las más trágicas de los Jueces.', verses:'Jueces 11–12', family:'Galaad (padre)', nationality:'Israelita galaadita'},
+
+  // --- REINO DIVIDIDO adicionales ---
+  {id:70, name:'Jonás',        role:'El profeta que huyó de Dios', emoji:'🐋', born:-780, died:-720, age:60, era:'divided', type:'prophet', sig:4, desc:'Profeta israelita enviado a predicar en Nínive, capital asiria. Huyó en barco hacia Tarsis. Fue arrojado al mar y tragado por un gran pez durante 3 días y 3 noches. Jesús usó esta historia como señal de su propia muerte y resurrección. Predicó en Nínive y toda la ciudad se arrepintió.', verses:'Jonás 1–4; Mateo 12:39-41', family:'Amitai (padre)', nationality:'Israelita de Gat-hefer'},
+  {id:71, name:'Amós',         role:'El profeta pastor de justicia social', emoji:'🐑', born:-760, died:-750, age:10, era:'divided', type:'prophet', sig:3, desc:'Humilde pastor y cultivador de sicómoros de Tecoa (Judá) llamado por Dios para profetizar en el próspero pero corrupto Israel del norte. Denunció la injusticia social, la opresión de los pobres y la religiosidad hipócrita con un lenguaje de fuego.', verses:'Amós 1–9', family:'Sin datos familiares', nationality:'Israelita de Tecoa, Judá'},
+  {id:72, name:'Oseas',        role:'El profeta del amor inquebrantable de Dios', emoji:'💔', born:-755, died:-710, age:45, era:'divided', type:'prophet', sig:4, desc:'Profeta cuya propia vida fue una parábola del amor de Dios. Dios le ordenó casarse con Gomer, mujer infiel. Su matrimonio roto y su amor persistente ilustraron el amor de Dios por Israel idólatra. Profetizó la restauración de Israel como esposa de Dios.', verses:'Oseas 1–14', family:'Gomer (esposa infiel), Jezreel, Lo-ruhama, Lo-ammi (hijos simbólicos)', nationality:'Israelita del norte'},
+  {id:73, name:'Miqueas',      role:'El profeta que anunció el nacimiento en Belén', emoji:'📍', born:-740, died:-700, age:40, era:'divided', type:'prophet', sig:4, desc:'Profeta de Moreset (Judá) contemporáneo de Isaías. Profetizó en Miqueas 5:2 que el Mesías nacería en Belén, 700 años antes del cumplimiento. Denunció la corrupción de líderes y sacerdotes y anunció tanto el juicio como la restauración de Israel.', verses:'Miqueas 1–7; Mateo 2:6', family:'Desconocida', nationality:'Israelita de Moreset, Judá'},
+  {id:74, name:'Ezequías',     role:'El rey reformador que oró y Dios respondió', emoji:'🙏', born:-740, died:-686, age:54, era:'divided', type:'king', sig:4, desc:'Uno de los mejores reyes de Judá. Destruyó altares paganos y la serpiente de bronce de Moisés (que se había convertido en ídolo). Cuando Asiria amenazaba Jerusalén, oró y Dios destruyó 185.000 soldados en una noche. Enfermó de muerte y oró; Dios le dio 15 años más de vida.', verses:'2 Reyes 18–20; Isaías 36–38', family:'Acaz (padre), Manasés (hijo)', nationality:'Israelita, rey de Judá'},
+  {id:75, name:'Habacuc',      role:'El profeta que dialogó con Dios', emoji:'⚖️', born:-612, died:-589, age:23, era:'divided', type:'prophet', sig:3, desc:'Profeta único que se atrevió a cuestionar a Dios: "¿Por qué toleras la injusticia?" Dios le respondió con la famosa frase: "El justo por su fe vivirá" (Habacuc 2:4), citada 3 veces en el NT y fundamento de la Reforma Protestante. Terminó con un himno de fe total pese al sufrimiento.', verses:'Habacuc 1–3; Romanos 1:17; Gálatas 3:11; Hebreos 10:38', family:'Desconocida', nationality:'Israelita de Judá'},
+  {id:76, name:'Sofonías',     role:'Profeta del "Día del Señor"', emoji:'🌑', born:-640, died:-609, age:31, era:'divided', type:'prophet', sig:3, desc:'Bisnieto del rey Ezequías. Profetizó durante el reinado del buen rey Josías. Proclamó con fuerza el "Día del Señor": un día de juicio sobre Judá, las naciones y sobre todo mal. También profetizó la restauración del remanente fiel de Israel.', verses:'Sofonías 1–3', family:'Descendiente del rey Ezequías', nationality:'Israelita noble de Jerusalén'},
+
+  // --- EXILIO adicionales ---
+  {id:77, name:'Sadrac / Hananías', role:'Fiel en el horno de fuego', emoji:'🔥', born:-620, died:-560, age:60, era:'exile', type:'prophet', sig:4, desc:'Amigo de Daniel deportado a Babilonia. Renombrado Sadrac por los babilonios. Se negó a adorar la estatua de oro de Nabucodonosor y fue arrojado al horno siete veces más caliente. Salió ileso junto a Mesac y Abednego, con la presencia de un cuarto ser divino. Símbolo de fidelidad a Dios a toda costa.', verses:'Daniel 1; 3', family:'Daniel, Mesac, Abednego (amigos)', nationality:'Israelita noble de Judá'},
+  {id:78, name:'Nabucodonosor', role:'El gran rey de Babilonia', emoji:'🦁', born:-634, died:-562, age:72, era:'exile', type:'king', sig:4, desc:'El más poderoso rey de Babilonia. Conquistó Jerusalén tres veces. Destruyó el Templo. Tuvo sueños que solo Daniel pudo interpretar. Se enorgulleció y Dios lo humilló con locura por 7 años hasta que reconoció al Dios del cielo. Su transformación es uno de los más dramáticos testimonios de conversión real del AT.', verses:'Daniel 1–4; 2 Reyes 24–25', family:'Nabopolasar (padre), Belsasar (nieto)', nationality:'Caldeo, rey de Babilonia'},
+
+  // --- RESTAURACIÓN adicionales ---
+  {id:79, name:'Hageo',        role:'Profeta de la reconstrucción del Templo', emoji:'🏗️', born:-530, died:-490, age:40, era:'return', type:'prophet', sig:3, desc:'Primer profeta tras el regreso del exilio. Reprendió al pueblo por construir sus propias casas mientras el Templo permanecía en ruinas. Animó a Zorobabel: "La gloria postrera de esta casa será mayor que la primera." Su libro de 2 capítulos logró reactivar la construcción del Segundo Templo.', verses:'Hageo 1–2; Esdras 5:1', family:'Desconocida', nationality:'Judío, regresado del exilio'},
+  {id:80, name:'Zacarías (profeta)', role:'El profeta de las visiones mesiánicas', emoji:'👁️', born:-520, died:-470, age:50, era:'return', type:'prophet', sig:4, desc:'Sacerdote-profeta contemporáneo de Hageo. Sus visiones nocturnas son las más elaboradas del AT tras Ezequiel. Profetizó la entrada triunfal del Mesías en burro (Zac 9:9), los 30 piezas de plata (Zac 11:12-13), la lanzada en el costado (Zac 12:10) y la segunda venida de Cristo. Más de 40 alusiones al NT.', verses:'Zacarías 1–14; Mateo 21:5; Juan 19:37', family:'Berequías (padre), Iddo (abuelo)', nationality:'Judío sacerdote, regresado del exilio'},
+  {id:81, name:'Mardoqueo',    role:'Primo de Ester, defensor del pueblo judío', emoji:'🛡️', born:-510, died:-455, age:55, era:'return', type:'patriarch', sig:3, desc:'Judío de la tribu de Benjamín, primo y tutor de Ester. Descubrió el complot de Amán para exterminar a los judíos y lo comunicó a Ester. Rehusó arrodillarse ante Amán. Después de la victoria, Jerjes lo elevó al segundo puesto del Imperio. Su nombre da origen a la fiesta del Purim.', verses:'Ester 2–10', family:'Ester (prima e hija adoptiva)', nationality:'Judío benjaminita en Susa, Persia'},
+  {id:82, name:'Zorobabel',    role:'Gobernador que reconstruyó el Templo', emoji:'⚒️', born:-560, died:-510, age:50, era:'return', type:'king', sig:3, desc:'Descendiente del rey David, gobernador de Judá bajo el Imperio Persa. Lideró a los primeros 42.360 judíos de regreso del exilio babilónico (~537 a.C.). Dirigió la reconstrucción del altar y del Segundo Templo. Figura mesiánica: Dios lo llama "sello" en Hageo 2:23 como prefiguración de Cristo.', verses:'Esdras 1–6; Hageo 1–2; Zacarías 4', family:'Salatiel (padre), descendiente de David', nationality:'Judío, linaje real davídico'},
+
+  // --- NUEVO TESTAMENTO adicionales ---
+  {id:83, name:'José (padre de Jesús)', role:'Padre adoptivo del Mesías', emoji:'🔨', born:-25, died:25, age:50, era:'nt', type:'patriarch', sig:4, desc:'Carpintero justo de Nazaret de la línea del rey David. Estuvo dispuesto a repudiar a María discretamente hasta que el ángel le reveló el misterio. Llevó a la familia a Egipto para huir de Herodes. Desaparece del relato evangélico antes del ministerio de Jesús, probablemente murió antes.', verses:'Mateo 1–2; Lucas 1–2; Juan 6:42', family:'Jacob (padre), María (esposa), Jesús (hijo adoptivo)', nationality:'Judío de Nazaret, línea de David'},
+  {id:84, name:'Judas Iscariote', role:'El traidor del Mesías',     emoji:'💰', born:5, died:30, age:25, era:'nt', type:'apostle', sig:4, desc:'Uno de los 12 apóstoles, tesorero del grupo. Traicionó a Jesús por 30 piezas de plata, exactamente como profetizó Zacarías 500 años antes. Lo identificó con un beso en el Huerto de Getsemaní. Arrepentido pero sin fe restauradora, devolvió el dinero y se suicidó.', verses:'Mateo 26:14-16; 27:3-5; Zacarías 11:12-13; Hechos 1:16-20', family:'Simón Iscariote (padre)', nationality:'Judío de Keriot, Judea'},
+  {id:85, name:'Andrés',       role:'El apóstol que trajo a otros a Jesús', emoji:'🐟', born:-5, died:60, age:65, era:'nt', type:'apostle', sig:3, desc:'Hermano de Pedro, primer discípulo llamado por Jesús. Lo primero que hizo fue buscar a su hermano Simón: "Hemos hallado al Mesías." Trajo al niño con los 5 panes y 2 peces. Llevó a griegos ante Jesús. Fue crucificado en una cruz en X (cruz de san Andrés) en Grecia.', verses:'Juan 1:35-42; 6:8-9; 12:22; Mateo 4:18', family:'Jonás (padre), Pedro (hermano)', nationality:'Judío galileo de Betsaida'},
+  {id:86, name:'Santiago (hijo de Zebedeo)', role:'Apóstol, primer mártir del apostolado', emoji:'⚡', born:5, died:44, age:39, era:'nt', type:'apostle', sig:4, desc:'Hijo de Zebedeo, hermano de Juan. Junto con Pedro y Juan formó el círculo íntimo de Jesús. Estuvo en la Transfiguración y en Getsemaní. Jesús los llamó "Boanerges" (hijos del trueno). Fue el primer apóstol en ser martirizado, decapitado por orden del rey Herodes Agripa I (~44 d.C.).', verses:'Marcos 3:17; Hechos 12:1-2; Mateo 17:1', family:'Zebedeo (padre), Salomé (madre), Juan (hermano)', nationality:'Judío galileo de Betsaida'},
+  {id:87, name:'Tomás',        role:'El apóstol que dudó y luego confesó', emoji:'🔍', born:3, died:72, age:69, era:'nt', type:'apostle', sig:3, desc:'Apóstol llamado Dídimo (el gemelo). Conocido por querer prueba antes de creer en la resurrección. Al ver las llagas de Jesús exclamó: "¡Señor mío, y Dios mío!" — la confesión de fe más directa de los evangelios. Según la tradición, llevó el evangelio hasta la India donde fue martirizado.', verses:'Juan 11:16; 14:5; 20:24-29', family:'Desconocida', nationality:'Judío galileo'},
+  {id:88, name:'Mateo / Leví', role:'Publicano apóstol y evangelista', emoji:'📖', born:3, died:70, age:67, era:'nt', type:'apostle', sig:4, desc:'Recaudador de impuestos (publicano) en Capernaúm, despreciado socialmente. Jesús lo llamó con solo dos palabras: "Sígueme." Lo dejó todo inmediatamente. Autor del primer Evangelio, escrito especialmente para los judíos demostrando que Jesús es el Mesías prometido. Según tradición murió mártir en Etiopía.', verses:'Mateo 9:9-13; Marcos 2:14; Mateo 1–28', family:'Alfeo (padre)', nationality:'Judío galileo de Capernaúm'},
+  {id:89, name:'Zaqueo',       role:'El publicano que devolvió cuatro veces', emoji:'🌳', born:-25, died:40, age:65, era:'nt', type:'patriarch', sig:3, desc:'Jefe de los publicanos en Jericó, rico y de baja estatura. Subió a un árbol sicómoro para ver a Jesús. Jesús lo llamó por nombre y fue a su casa. La transformación fue inmediata: devolvió cuatro veces lo robado. Símbolo del poder de Cristo para transformar a los más excluidos.', verses:'Lucas 19:1-10', family:'Desconocida', nationality:'Judío de Jericó'},
+  {id:90, name:'Caifás',       role:'Sumo sacerdote en la crucifixión de Jesús', emoji:'⚖️', born:-14, died:44, age:58, era:'nt', type:'priest', sig:3, desc:'Sumo sacerdote judío 18-36 d.C., yerno de Anás. Presidió el juicio nocturno ilegal contra Jesús. Involuntariamente profetizó: "Conviene que un hombre muera por el pueblo." Fue quien convenció al Sanedrín de que Jesús debía morir. Fue destituido por Roma en el 36 d.C.', verses:'Juan 11:49-51; 18:13-28; Mateo 26:57-68', family:'Anás (suegro)', nationality:'Judío sacerdote de Jerusalén'},
+  {id:91, name:'Bernabé',      role:'El hijo de la consolación, compañero de Pablo', emoji:'🤗', born:5, died:61, age:56, era:'nt', type:'apostle', sig:3, desc:'Levita chipriota cuyo nombre real era José, pero los apóstoles lo llamaron Bernabé ("hijo de la consolación"). Vendió su campo y dio el dinero a la iglesia. Fue quien creyó en la conversión de Pablo cuando todos tenían miedo. Compañero del primer viaje misionero de Pablo. Más tarde se separó amigablemente por Juan Marcos.', verses:'Hechos 4:36-37; 9:27; 13–15; Gálatas 2:1', family:'Juan Marcos (sobrino)', nationality:'Judío levita de Chipre'},
+  {id:92, name:'Timoteo',      role:'El hijo espiritual de Pablo', emoji:'📬', born:17, died:97, age:80, era:'nt', type:'apostle', sig:3, desc:'Joven discípulo de Listra con madre judía (Eunice) y padre griego. Pablo lo circuncidó para mayor efectividad misionera. Se convirtió en el colaborador más cercano de Pablo, enviado a las iglesias en momentos críticos. Pablo le escribió dos cartas instruyéndolo como pastor de Éfeso. Según tradición, fue mártir bajo Domiciano.', verses:'Hechos 16:1-3; 1–2 Timoteo; Filipenses 2:19-24', family:'Eunice (madre), Loida (abuela)', nationality:'Judío-griego de Listra, Licastria'},
+  {id:93, name:'Lucas',        role:'Médico, historiador del evangelio y los Hechos', emoji:'📜', born:5, died:84, age:79, era:'nt', type:'apostle', sig:4, desc:'Médico gentil (el único autor no judío del NT) y compañero fiel de Pablo. Escribió el Evangelio de Lucas (el más extenso y detallado) y los Hechos de los Apóstoles. Usó lenguaje médico preciso. Sus descripciones del nacimiento de Jesús son únicas. Estuvo con Pablo hasta el final: "Solo Lucas está conmigo" (2 Tim 4:11).', verses:'Lucas 1–24; Hechos 1–28; Colosenses 4:14', family:'Desconocida', nationality:'Griego gentil, posiblemente de Antioquía'},
+  {id:94, name:'Silas / Silvano', role:'Compañero misionero de Pablo', emoji:'⛓️', born:10, died:65, age:55, era:'nt', type:'apostle', sig:3, desc:'Profeta y líder de la iglesia de Jerusalén. Elegido para llevar la carta del Concilio de Jerusalén a Antioquía. Segundo compañero de Pablo en su viaje misionero. Juntos fueron encarcelados en Filipos y cantaron himnos a medianoche hasta que un terremoto abrió las puertas. Coautor de 1 y 2 Tesalonicenses.', verses:'Hechos 15:22 – 18:5; 1 Tesalonicenses 1:1', family:'Desconocida', nationality:'Judío helenista, ciudadano romano'},
+
+  // --- REYES ADICIONALES: Reino Dividido ---
+  {id:95,  name:'Roboam',          role:'Rey que dividió el reino',              emoji:'😤', born:-972, died:-913, age:58,  era:'divided', type:'king', sig:3, desc:'Hijo de Salomón. Al subir al trono duplicó los impuestos. Las 10 tribus del norte se rebelaron con Jeroboam, dividiendo permanentemente el reino. Solo Judá y Benjamín le permanecieron fieles. Su orgullo destruyó en un día la nación unida de su padre.', verses:'1 Reyes 12; 2 Crónicas 10–12', family:'Salomón (padre), Jeroboam (rival)', nationality:'Israelita, rey de Judá'},
+  {id:96,  name:'Jeroboam I',       role:'Primer rey del Israel del norte',       emoji:'🐂', born:-975, died:-909, age:66,  era:'divided', type:'king', sig:3, desc:'Siervo de Salomón que lideró la rebelión de las 10 tribus. Para evitar que el pueblo fuera a adorar a Jerusalén, erigió dos becerros de oro en Betel y Dan. Este "pecado de Jeroboam" marcó a todos los reyes posteriores de Israel del norte como su legado de idolatría.', verses:'1 Reyes 12–14', family:'Nabat (padre)', nationality:'Israelita de Seredá, Efraín'},
+  {id:97,  name:'Josafat',          role:'Rey piadoso aliado con David',           emoji:'🙏', born:-872, died:-848, age:24,  era:'divided', type:'king', sig:3, desc:'Rey de Judá que caminó en los caminos de David su padre. Envió maestros con el libro de la Ley por todas las ciudades. Al enfrentar un ejército enorme, ordenó que los cantores fueran al frente del ejército alabando a Dios. El Señor puso emboscada a sus enemigos y ganó sin pelear.', verses:'2 Crónicas 17–20', family:'Asa (padre), Joram (hijo)', nationality:'Israelita, rey de Judá'},
+  {id:98,  name:'Uzías / Azarías',  role:'Rey próspero que se enorgulleció',       emoji:'⚖️', born:-792, died:-740, age:52,  era:'divided', type:'king', sig:3, desc:'Rey de Judá que reinó 52 años con gran prosperidad y poderío militar. Mientras fue fiel a Dios, prosperó. Pero en el año de su muerte, Isaías tuvo la visión del Señor exaltado (Is 6). Uzías se enorgulleció y quiso ofrecer incienso reservado a los sacerdotes. Dios lo hirió de lepra hasta su muerte.', verses:'2 Crónicas 26; Isaías 6:1', family:'Amasías (padre), Jotam (hijo)', nationality:'Israelita, rey de Judá'},
+  {id:99,  name:'Manasés',          role:'El rey más impío de Judá que se arrepintió', emoji:'🌑', born:-709, died:-642, age:67, era:'divided', type:'king', sig:3, desc:'Hijo de Ezequías. El rey más impío de Judá: sacrificó a su hijo en fuego, practicó magia y llenó Jerusalén de ídolos. Fue capturado y llevado a Babilonia con ganchos. Allí se humilló ante Dios sinceramente y fue restaurado. Reinó 55 años, el reinado más largo de Judá. Historia de arrepentimiento y restauración.', verses:'2 Reyes 21; 2 Crónicas 33', family:'Ezequías (padre), Amón (hijo)', nationality:'Israelita, rey de Judá'},
+  {id:100, name:'Sedequías',         role:'El último rey de Judá',                  emoji:'⛓️', born:-618, died:-560, age:58,  era:'exile',   type:'king', sig:3, desc:'Último rey de Judá. Se rebeló contra Nabucodonosor ignorando las advertencias de Jeremías. Nabucodonosor lo cercó por 2 años. Al caer Jerusalén, Sedequías huyó pero fue capturado: sus hijos asesinados ante él, sus ojos sacados y fue llevado encadenado a Babilonia donde murió en prisión. Trágico fin del reino davídico.', verses:'2 Reyes 24–25; Jeremías 39; 52', family:'Josías (padre)', nationality:'Israelita, último rey de Judá'},
+
+  // --- REYES: Período intertestamental y NT ---
+  {id:101, name:'Herodes el Grande', role:'Rey de Judea en el nacimiento de Jesús', emoji:'🏛️', born:-73, died:-4, age:69, era:'inter', type:'king', sig:4, desc:'Idumeo nombrado rey de Judea por Roma (37 a.C.). Construyó el grandioso Templo de Jerusalén. Extraordinariamente cruel: mató a esposa, cuñados e hijos. Al saber del nacimiento del Mesías en Belén ordenó matar a todos los niños menores de 2 años. Murió de enfermedad horrible pocos meses después. Símbolo del poder que teme a Cristo.', verses:'Mateo 2:1-18; Lucas 1:5', family:'Herodes Antipas, Arquelao (hijos)', nationality:'Idumeo, rey cliente de Roma'},
+  {id:102, name:'Herodes Antipas',   role:'Tetrarca que decapitó a Juan el Bautista', emoji:'🗡️', born:-20, died:39, age:59, era:'nt', type:'king', sig:3, desc:'Hijo de Herodes el Grande, tetrarca de Galilea y Perea. Encarceló y decapitó a Juan el Bautista por la danza de Salomé y la petición de su amante Herodías. Jesús lo llamó "esa zorra". Poncio Pilato lo envió a Herodes durante el juicio de Jesús, pero Herodes lo devolvió. Fue exiliado definitivamente por el emperador Calígula.', verses:'Mateo 14:1-12; Lucas 23:6-12', family:'Herodes el Grande (padre)', nationality:'Idumeo-judío, tetrarca romano'},
+
+  // --- PATRIARCAS adicionales: Hijos de Jacob (líneas tribales) ---
+  {id:103, name:'Judá (hijo de Jacob)', role:'Patriarca del que desciende el Mesías', emoji:'🦁', born:-1930, died:-1800, age:130, era:'patriarchs', type:'patriarch', sig:4, desc:'Cuarto hijo de Jacob y Lea. Propuso vender a José en lugar de matarlo. Años después, ofreció su propia vida para librar a Benjamín. Recibió la bendición profética de Jacob: "No se apartará el cetro de Judá... hasta que venga Siloh (el Mesías)". De su tribu vienen David, Salomón y Jesucristo.', verses:'Génesis 29:35; 44:18-34; 49:8-12; Apocalipsis 5:5', family:'Jacob (padre), Lea (madre), Tamar (nuera)', nationality:'Patriarca hebreo'},
+  {id:104, name:'Leví (hijo de Jacob)', role:'Patriarca del sacerdocio de Israel', emoji:'🏺', born:-1930, died:-1800, age:130, era:'patriarchs', type:'patriarch', sig:3, desc:'Tercer hijo de Jacob y Lea. Junto a Simeón vengaron la violación de su hermana Dina matando a toda una ciudad. Aunque reprochado por Jacob, su tribu fue escogida para el sacerdocio y servicio del Templo. Moisés y Aarón son levitas. La tribu no recibió tierra propia sino ciudades distribuidas entre las demás tribus.', verses:'Génesis 29:34; 34; 49:5-7; Éxodo 32:26-28', family:'Jacob (padre), Lea (madre)', nationality:'Patriarca hebreo'},
+
+  // --- SACERDOTES y FIGURAS clave (mapeadas al filtro de Patriarcas) ---
+  {id:105, name:'Ananías (sumo sacerdote)', role:'Sumo sacerdote que juzgó a Pablo', emoji:'⚖️', born:1, died:66, age:65, era:'nt', type:'priest', sig:2, desc:'Sumo sacerdote de Jerusalén ~47-58 d.C. Ordenó golpear a Pablo en la boca durante su juicio ante el Sanedrín. Pablo respondió: "Dios te golpeará, pared blanqueada." Fue asesinado por zelotes al inicio de la revuelta judía del 66 d.C. Representante de la corrupción del sacerdocio en la última etapa del Segundo Templo.', verses:'Hechos 23:1-5; 24:1', family:'Desconocida', nationality:'Judío sacerdote de Jerusalén'},
+  {id:106, name:'Poncio Pilato',     role:'Gobernador romano en el juicio de Jesús', emoji:'🏛️', born:-13, died:38, age:51, era:'nt', type:'king', sig:4, desc:'Prefecto romano de Judea (26–36 d.C.). Juzgó a Jesús y lo declaró inocente tres veces pero cedió a la presión del pueblo. Se lavó las manos simbólicamente. Ordenó la crucifixión. La inscripción INRI en la cruz fue escrita en tres idiomas por su orden. Fue destituido por Roma tras una masacre en Samaria y murió en el exilio.', verses:'Mateo 27:11-26; Juan 18:28–19:22', family:'Claudia Prócula (esposa)', nationality:'Romano, prefecto de Judea'},
+];
+
+const EVENTS = [
+  {id:1,  year:-4000, title:'La Creación del Universo',      era:'creation',   type:'Creación',   desc:'Dios crea el universo de la nada en 6 días: luz, firmamento, tierra seca, vegetación, luminares, seres vivos y finalmente el hombre a su imagen y semejanza.',                          people:[1,2],   verses:'Génesis 1-2', sig:5},
+  {id:2,  year:-3900, title:'La Caída: El Pecado Original',  era:'creation',   type:'Caída',      desc:'Adán y Eva desobedecen a Dios al comer del árbol del conocimiento del bien y del mal. El pecado y la muerte entran al mundo. Son expulsados del Edén pero Dios promete un Redentor.',   people:[1,2],   verses:'Génesis 3', sig:5},
+  {id:3,  year:-3875, title:'Caín mata a Abel',               era:'creation',   type:'Tragedia',   desc:'Por envidia, Caín mata a su hermano Abel, su primera ofrenda rechazada por Dios. Primer homicidio de la historia. Dios maldice a Caín pero le pone una señal de protección.',             people:[3,4],   verses:'Génesis 4:1-16', sig:4},
+  {id:4,  year:-3017, title:'Enoc es trasladado al cielo',   era:'creation',   type:'Milagro',    desc:'Enoc caminó con Dios durante 300 años. A los 365 años "Dios lo llevó" sin pasar por la muerte. Único caso en el AT junto a Elías de traslado sin muerte.',                              people:[6],     verses:'Génesis 5:24; Hebreos 11:5', sig:4},
+  {id:5,  year:-2348, title:'El Gran Diluvio',                era:'creation',   type:'Juicio',     desc:'Dios envía 40 días y noches de lluvia. Las aguas cubren la tierra por 150 días. Solo sobreviven Noé, su familia y los animales en el Arca. La humanidad es renovada.',                   people:[8],     verses:'Génesis 6-8', sig:5},
+  {id:6,  year:-2347, title:'El Pacto del Arco Iris',         era:'creation',   type:'Pacto',      desc:'Dios hace un pacto con Noé y toda la creación: nunca más destruirá la tierra con diluvio. El arco iris es la señal eterna de este pacto universal.',                                    people:[8],     verses:'Génesis 9:1-17', sig:5},
+  {id:7,  year:-2250, title:'La Torre de Babel',              era:'creation',   type:'Juicio',     desc:'Los descendientes de Noé intentan construir una ciudad y torre para llegar al cielo. Dios confunde sus lenguas y los dispersa por toda la tierra, naciendo las naciones.',               people:[],      verses:'Génesis 11:1-9', sig:4},
+  {id:8,  year:-2091, title:'Dios llama a Abraham',           era:'patriarchs', type:'Llamado',    desc:'Dios llama a Abram para salir de Ur de los caldeos hacia una tierra desconocida. Le promete: tierra, descendencia numerosa y ser bendición para todas las naciones.',                   people:[9,10],  verses:'Génesis 12:1-9', sig:5},
+  {id:9,  year:-2085, title:'El Pacto de Dios con Abraham',   era:'patriarchs', type:'Pacto',      desc:'Dios formaliza el pacto en un ceremonial de fuego entre los animales partidos. Promete a Abraham tierra desde el Nilo hasta el Éufrates y descendencia como las estrellas del cielo.',  people:[9],     verses:'Génesis 15', sig:5},
+  {id:10, year:-2067, title:'Destrucción de Sodoma y Gomorra',era:'patriarchs', type:'Juicio',     desc:'Dios destruye estas ciudades por su extrema maldad con fuego y azufre del cielo. La esposa de Lot mira atrás y se convierte en estatua de sal. Solo Lot y sus hijas se salvan.',        people:[11],    verses:'Génesis 18-19', sig:4},
+  {id:11, year:-2066, title:'Nacimiento milagroso de Isaac',  era:'patriarchs', type:'Milagro',    desc:'Isaac nace de Sara cuando ella tenía 90 años y Abraham 100. Un milagro de Dios para cumplir su promesa de descendencia. Su nombre significa "risa" por la reacción de Sara.',            people:[9,10,13], verses:'Génesis 21:1-7', sig:5},
+  {id:12, year:-2050, title:'Abraham ofrece a Isaac en Moriah',era:'patriarchs',type:'Prueba',     desc:'Dios prueba a Abraham pidiéndole sacrificar a su único hijo Isaac. Abraham obedece, pero Dios provee un carnero en el último momento. Prefigura el sacrificio de Cristo en la cruz.',  people:[9,13],  verses:'Génesis 22', sig:5},
+  {id:13, year:-1929, title:'La escalera de Jacob en Betel',  era:'patriarchs', type:'Visión',     desc:'Jacob huye de Esaú y tiene una visión: una escalera que llega al cielo con ángeles subiendo y bajando. Dios le confirma el pacto abrahámico. Llama al lugar Betel ("Casa de Dios").',  people:[15],    verses:'Génesis 28:10-22', sig:4},
+  {id:14, year:-1898, title:'José vendido como esclavo',      era:'patriarchs', type:'Tragedia',   desc:'Los hermanos de José, celosos por el amor de Jacob hacia él, lo venden a mercaderes ismaelitas por 20 piezas de plata. Es llevado a Egipto. Providencialmente, esto salvaría a Israel.',people:[16],    verses:'Génesis 37', sig:4},
+  {id:15, year:-1885, title:'José: segundo del Faraón',       era:'patriarchs', type:'Providencia',desc:'José interpreta el sueño de las 7 vacas gordas y 7 flacas: 7 años de abundancia y 7 de hambre. El Faraón lo nombra virrey de Egipto. A los 30 años ha pasado de esclavo a gobernante.',people:[16],    verses:'Génesis 41', sig:4},
+  {id:16, year:-1876, title:'Jacob y su familia llegan a Egipto',era:'patriarchs',type:'Migración',desc:'José revela su identidad a sus hermanos llorando. El Faraón invita a toda la familia de Jacob a instalarse en Gosén, Egipto. 70 personas entran en Egipto; 430 años después saldrán millones.',people:[15,16], verses:'Génesis 45-47', sig:5},
+  {id:17, year:-1446, title:'Las 10 Plagas de Egipto',        era:'egypt',      type:'Milagro',    desc:'Dios envía 10 devastadoras plagas sobre Egipto para liberar a Israel: sangre, ranas, mosquitos, moscas, peste, úlceras, granizo, langostas, tinieblas y muerte de los primogénitos. El Faraón se rinde.',people:[18,19], verses:'Éxodo 7-12', sig:5},
+  {id:18, year:-1446, title:'La Pascua / El Éxodo de Egipto', era:'egypt',      type:'Liberación', desc:'La noche de Pascua, el Ángel de la Muerte pasa sobre las casas con sangre de cordero. Israel sale de Egipto con mano poderosa: más de 2 millones de personas. Prefigura la salvación por la sangre de Cristo.',people:[18,19,20], verses:'Éxodo 12-14', sig:5},
+  {id:19, year:-1446, title:'División del Mar Rojo',          era:'egypt',      type:'Milagro',    desc:'El ejército del Faraón persigue a Israel. Moisés extiende su vara y Dios divide el Mar Rojo. Israel cruza en seco. Cuando el ejército egipcio intenta seguir, las aguas vuelven y los ahogan.',people:[18],   verses:'Éxodo 14-15', sig:5},
+  {id:20, year:-1445, title:'Los Diez Mandamientos en el Sinaí',era:'egypt',   type:'Ley',        desc:'Dios aparece en el Monte Sinaí entre truenos, relámpagos y fuego. Entrega a Moisés las dos tablas de piedra con los Diez Mandamientos. Nace el pacto de la Ley entre Dios e Israel.',people:[18],   verses:'Éxodo 19-20; 31:18', sig:5},
+  {id:21, year:-1445, title:'El Becerro de Oro',             era:'egypt',      type:'Apostasía',  desc:'Mientras Moisés recibe la Ley, el pueblo le pide a Aarón un dios que los guíe. Aarón fabrica un becerro de oro. Israel lo adora. Dios amenaza con destruirlos pero Moisés intercede.',people:[18,19], verses:'Éxodo 32', sig:4},
+  {id:22, year:-1406, title:'Muerte de Moisés, Josué asume mando',era:'egypt', type:'Transición', desc:'A los 120 años, con vista perfecta y fuerza intacta, Moisés muere en el Monte Nebo viendo la Tierra Prometida. Josué, su discípulo, asume el liderazgo para conducir a Israel a Canaán.',people:[18,22], verses:'Deuteronomio 34', sig:4},
+  {id:23, year:-1406, title:'Cruce del Río Jordán',          era:'conquest',   type:'Milagro',    desc:'Los sacerdotes con el Arca del Pacto entran al Jordán y las aguas se dividen. Todo Israel cruza en seco hacia la Tierra Prometida. Eco del cruce del Mar Rojo 40 años antes.',people:[22],   verses:'Josué 3', sig:4},
+  {id:24, year:-1400, title:'Caída de Jericó',               era:'conquest',   type:'Victoria',   desc:'Dios ordena marchar en silencio alrededor de Jericó 7 días. Al séptimo día, 7 sacerdotes tocan trompetas, el pueblo grita y los muros caen. Solo Rahab y su familia son salvados.',people:[22],   verses:'Josué 6', sig:5},
+  {id:25, year:-1200, title:'Débora lidera a Israel a la victoria',era:'judges',type:'Victoria',   desc:'Bajo la opresión del general cananeo Sísara, Débora llama a Barac para liberar a Israel. Derrota al ejército con 900 carros de hierro en el Monte Tabor. Sísara es muerto por Jael.',people:[23],   verses:'Jueces 4-5', sig:4},
+  {id:26, year:-1162, title:'Gedeón derrota a Madián con 300',era:'judges',    type:'Victoria',   desc:'Dios reduce el ejército de Gedeón de 32.000 a solo 300 hombres para que Israel no se glorie en sí mismo. Con antorchas, cántaros y trompetas, confunden y derrotan a 135.000 madianitas.',people:[24],   verses:'Jueces 7', sig:4},
+  {id:27, year:-1050, title:'Israel pide un rey',             era:'judges',    type:'Político',   desc:'El pueblo rechaza el reinado de Dios y pide un rey humano "como las demás naciones". Samuel advierte del peligro, pero Dios consiente y Saúl es ungido como primer rey de Israel.',people:[27,28],  verses:'1 Samuel 8-10', sig:4},
+  {id:28, year:-1025, title:'David unge por Samuel como futuro rey',era:'kingdom',type:'Ungimiento',desc:'Dios rechaza a Saúl y envía a Samuel a Belén. Entre los 8 hijos de Isaí, Dios elige al menor, David, el pastor. "El Señor mira el corazón." David es ungido secretamente como futuro rey.',people:[27,30], verses:'1 Samuel 16', sig:5},
+  {id:29, year:-1020, title:'David mata a Goliat',            era:'kingdom',   type:'Victoria',   desc:'El gigante filisteo Goliat desafía a Israel por 40 días. El joven pastor David, confiando en Dios, lo mata con una honda y una piedra. Israel derrota al ejército filisteo. David se hace famoso.',people:[30],   verses:'1 Samuel 17', sig:5},
+  {id:30, year:-1003, title:'David conquista Jerusalén',      era:'kingdom',   type:'Político',   desc:'David conquista la fortaleza jebusea de Sión y la establece como su capital: "Ciudad de David". Trae el Arca del Pacto a Jerusalén con gran celebración danzando ante el Señor.',people:[30],   verses:'2 Samuel 5-6', sig:5},
+  {id:31, year:-966,  title:'Construcción del Templo de Salomón',era:'kingdom',type:'Construcción',desc:'Salomón comienza la construcción del Templo en el Monte Moriah, el proyecto arquitectónico más grandioso de Israel. Requirió 30.000 obreros en el Líbano y 80.000 canteros. Duró 7 años.',people:[32],   verses:'1 Reyes 6', sig:5},
+  {id:32, year:-959,  title:'Dedicación del Templo de Salomón',era:'kingdom',  type:'Adoración',  desc:'El Templo es consagrado con sacrificios y música de 120 sacerdotes tocando trompetas. La gloria de Dios llena el Templo como nube. Salomón ora la oración de dedicación más hermosa del AT.',people:[32],   verses:'1 Reyes 8', sig:5},
+  {id:33, year:-930,  title:'División del Reino: Israel y Judá',era:'divided', type:'Político',   desc:'Tras la muerte de Salomón, su hijo Roboam duplica los impuestos. Las 10 tribus del norte se rebelan con Jeroboam. El reino se divide permanentemente: Israel (norte) y Judá (sur).',people:[],     verses:'1 Reyes 12', sig:5},
+  {id:34, year:-850,  title:'Elías contra los 450 profetas de Baal',era:'divided',type:'Milagro', desc:'En el Monte Carmelo, Elías desafía a los profetas de Baal. El Dios verdadero responde con fuego del cielo sobre el altar empapado de agua. El pueblo grita: "¡El Señor es Dios!" Los 450 profetas son ejecutados.',people:[33],   verses:'1 Reyes 18', sig:5},
+  {id:35, year:-848,  title:'Elías arrebatado en carro de fuego',era:'divided',type:'Milagro',   desc:'Elías y Eliseo cruzan el Jordán. Un carro de fuego con caballos de fuego separa a ambos. Elías sube al cielo en un torbellino. Eliseo recoge el manto y recibe doble porción del Espíritu.',people:[33,34],  verses:'2 Reyes 2', sig:5},
+  {id:36, year:-722,  title:'Caída de Samaria: Israel en el exilio',era:'divided',type:'Juicio',  desc:'Asiria bajo Sargón II destruye la capital del Reino del Norte. Las 10 tribus son deportadas a Asiria y dispersadas, convirtiéndose en "las 10 tribus perdidas de Israel". Israel paga el precio de su idolatría.',people:[],     verses:'2 Reyes 17', sig:5},
+  {id:37, year:-701,  title:'Milagro: Asiria se retira de Jerusalén',era:'divided',type:'Milagro',desc:'El rey asirio Senaquerib sitia Jerusalén. El rey Ezequías ora. El ángel del Señor mata a 185.000 soldados asirios en una noche. Senaquerib regresa a Nínive donde es asesinado por sus hijos.',people:[],     verses:'2 Reyes 18-19; Isaías 36-37', sig:4},
+  {id:38, year:-621,  title:'El Libro de la Ley hallado en el Templo',era:'divided',type:'Reforma',desc:'Durante la reparación del Templo bajo el rey Josías, el sacerdote Hilcías halla el Libro de la Ley. Al leerlo, Josías se rasga las vestiduras y lleva a cabo la mayor reforma religiosa de Judá.',people:[39],   verses:'2 Reyes 22', sig:4},
+  {id:39, year:-605,  title:'Primera deportación a Babilonia',era:'exile',    type:'Exilio',     desc:'Nabucodonosor conquista Jerusalén por primera vez y deporta a los nobles y jóvenes más sabios de Judá a Babilonia, entre ellos Daniel, Sadrac, Mesac y Abednego. Comienza el período del exilio.',people:[40,41],  verses:'Daniel 1; 2 Reyes 24', sig:5},
+  {id:40, year:-597,  title:'Segunda deportación y primera destrucción',era:'exile',type:'Exilio',desc:'Segunda invasión de Nabucodonosor. Deporta al rey Joaquín, 10.000 personas incluyendo artesanos y guerreros. El profeta Ezequiel es llevado a Babilonia en este grupo.',people:[40,41],  verses:'2 Reyes 24:10-16; Ezequiel 1', sig:4},
+  {id:41, year:-595,  title:'El horno de fuego: Sadrac, Mesac y Abednego',era:'exile',type:'Milagro',desc:'Nabucodonosor ordena adorar una estatua de oro de 27m. Los tres jóvenes judíos se niegan. Son arrojados al horno 7 veces más caliente. El rey ve a un cuarto ser "semejante a hijo de Dios" caminando con ellos ileso.',people:[40],   verses:'Daniel 3', sig:5},
+  {id:42, year:-586,  title:'Destrucción de Jerusalén y el Templo',era:'exile', type:'Juicio',    desc:'Nabucodonosor destruye completamente Jerusalén, quema el Templo de Salomón y deporta al resto de la población a Babilonia. Fin del Reino de Judá. El lugar permanece desolado por 70 años.',people:[38],   verses:'2 Reyes 25; Jeremías 39; Lamentaciones', sig:5},
+  {id:43, year:-539,  title:'Daniel en el foso de los leones',era:'exile',    type:'Milagro',    desc:'El rey Darío, por presión de los sátrapas, prohíbe orar a otro dios por 30 días. Daniel ora igualmente. Es arrojado al foso de leones. Al amanecer lo hallan ileso: "Mi Dios envió a su ángel y cerró la boca de los leones".',people:[40],   verses:'Daniel 6', sig:5},
+  {id:44, year:-539,  title:'Festín de Baltasar y caída de Babilonia',era:'exile',type:'Juicio', desc:'Baltasar celebra un banquete con los vasos del Templo. Una mano escribe en la pared: "MENE, MENE, TEKEL, UPARSIN". Daniel interpreta: Babilonia ha sido juzgada. Esa misma noche Ciro el Persa conquista Babilonia.',people:[40],   verses:'Daniel 5', sig:4},
+  {id:45, year:-538,  title:'Decreto de Ciro: los judíos pueden volver',era:'return',type:'Liberación',desc:'Ciro el Grande emite un decreto permitiendo a todos los judíos regresar a su tierra y reconstruir el Templo. Se cumple la profecía de Jeremías de 70 años de exilio y la de Isaías que nombró a Ciro 150 años antes.',people:[],     verses:'Esdras 1; Jeremías 29:10; Isaías 44:28', sig:5},
+  {id:46, year:-516,  title:'Dedicación del Segundo Templo',  era:'return',   type:'Adoración',  desc:'Bajo el liderazgo de Zorobabel, el segundo Templo es terminado y dedicado. Los sacerdotes mayores lloran al recordar la gloria del primer Templo, pero el profeta Hageo promete que la gloria futura será mayor.',people:[],     verses:'Esdras 6; Hageo 2', sig:4},
+  {id:47, year:-479,  title:'Ester salva al pueblo judío',     era:'return',   type:'Liberación', desc:'El ministro Amán obtiene decreto para exterminar a todos los judíos del Imperio Persa. Ester ayuna 3 días y arriesga su vida presentándose ante el rey. Descubre el complot; Amán es ahorcado y los judíos se salvan.',people:[42],   verses:'Ester 1-10', sig:5},
+  {id:48, year:-445,  title:'Reconstrucción de los muros de Jerusalén',era:'return',type:'Construcción',desc:'Nehemías llega a Jerusalén y en 52 días, pese a la oposición y amenazas de Sanbalat y Tobías, reconstruye los muros de Jerusalén. El pueblo trabajaba con una mano sosteniendo herramientas y la otra una espada.',people:[43,44],  verses:'Nehemías 2-6', sig:4},
+  {id:49, year:-430,  title:'Malaquías: el último profeta del AT',era:'return', type:'Profecía',  desc:'Malaquías cierra el canon del Antiguo Testamento profetizando que el "mensajero del pacto" vendrá a su Templo y que el espíritu de Elías preparará su camino. Israel espera al Mesías en silencio por 400 años.',people:[45],   verses:'Malaquías 3-4', sig:4},
+  {id:50, year:-165,  title:'Revuelta macabea y Hanukkah',     era:'inter',    type:'Liberación', desc:'Judas Macabeo lidera la rebelión contra Antíoco IV Epífanes que profanó el Templo colocando una estatua de Zeus. Los macabeos recuperan y rededican el Templo. El aceite para 1 día dura 8. Origen de Hanukkah.',people:[],     verses:'1 Macabeos; Juan 10:22', sig:3},
+  {id:51, year:-5,    title:'Nacimiento de Jesús en Belén',    era:'nt',       type:'Nacimiento', desc:'El Hijo de Dios nace en un pesebre de Belén, ciudad de David. Ángeles anuncian su llegada a los pastores. Los Magos de Oriente siguen la estrella. Se cumple Miqueas 5:2 escrito 700 años antes.',people:[47,48],  verses:'Mateo 1-2; Lucas 2; Miqueas 5:2', sig:5},
+  {id:52, year:-4,    title:'Huida a Egipto y masacre de los inocentes',era:'nt',type:'Persecución',desc:'Herodes, temiendo al "Rey de los Judíos", ordena matar a todos los niños menores de 2 años en Belén. José, advertido en sueño, huye a Egipto con María y el niño. Se cumple Oseas 11:1.',people:[47,48],  verses:'Mateo 2:13-23', sig:4},
+  {id:53, year:26,    title:'Bautismo de Jesús y comienzo de su ministerio',era:'nt',type:'Ungimiento',desc:'Juan bautiza a Jesús en el Jordán. El Espíritu Santo desciende como paloma. La voz del Padre dice: "Este es mi Hijo amado en quien tengo complacencia." La Trinidad se manifiesta. Comienza el ministerio público de Jesús.',people:[46,47],  verses:'Mateo 3:13-17; Marcos 1:9-11', sig:5},
+  {id:54, year:27,    title:'Sermón del Monte',                era:'nt',       type:'Enseñanza',  desc:'Jesús enseña las Bienaventuranzas, el Padrenuestro y los principios del Reino de Dios en el mayor discurso ético de la historia. "Sed perfectos como vuestro Padre celestial es perfecto."', people:[47],   verses:'Mateo 5-7; Lucas 6:20-49', sig:5},
+  {id:55, year:28,    title:'Transfiguración en el Monte',     era:'nt',       type:'Revelación', desc:'Jesús sube al Monte Hermón con Pedro, Santiago y Juan. Su rostro resplandece como el sol, sus vestidos se vuelven blancos como la luz. Moisés y Elías aparecen hablando con Él. Voz del Padre: "Este es mi Hijo amado."',people:[47,49,51], verses:'Mateo 17:1-9; Marcos 9:2-9', sig:5},
+  {id:56, year:29,    title:'Entrada triunfal en Jerusalén',   era:'nt',       type:'Profecía',   desc:'Jesús entra en Jerusalén sobre un pollino en medio de vítores: "¡Hosanna al Hijo de David!" Se cumple Zacarías 9:9 escrito 500 años antes. La multitud tiende mantos y ramas en el camino.',people:[47],   verses:'Mateo 21:1-11; Zacarías 9:9', sig:5},
+  {id:57, year:30,    title:'La Última Cena',                  era:'nt',       type:'Pacto',      desc:'Jesús celebra la Pascua con sus discípulos. Instituye la Santa Cena: el pan representa su cuerpo, el vino su sangre del nuevo pacto. Lava los pies de sus discípulos. Anuncia que uno lo traicionará.',people:[47,49,51,52], verses:'Mateo 26:17-30; Juan 13-17', sig:5},
+  {id:58, year:30,    title:'Crucifixión de Jesucristo',       era:'nt',       type:'Sacrificio', desc:'Jesús es crucificado en el Gólgota. Las tinieblas cubren la tierra por 3 horas. El velo del Templo se rasga de arriba abajo. "Consumado es." Muere por los pecados de toda la humanidad, cumpliendo Isaías 53 escrito 700 años antes.',people:[47,48,52], verses:'Mateo 27; Juan 19; Isaías 53', sig:5},
+  {id:59, year:30,    title:'Resurrección de Jesucristo',      era:'nt',       type:'Victoria',   desc:'Al tercer día, la tumba está vacía. El ángel dice: "No está aquí; ha resucitado." María Magdalena es la primera en verlo. Jesús se aparece a más de 500 personas durante 40 días. La muerte es vencida para siempre.',people:[47,52],  verses:'Mateo 28; Juan 20; 1 Corintios 15:3-8', sig:5},
+  {id:60, year:30,    title:'Pentecostés: Nacimiento de la Iglesia',era:'nt',  type:'Fundación',  desc:'50 días después de Pascua, el Espíritu Santo desciende sobre 120 creyentes como lenguas de fuego. Hablan en otras lenguas. Pedro predica y 3.000 personas se convierten en un día. Nace la Iglesia cristiana.',people:[49,51],  verses:'Hechos 2', sig:5},
+  {id:61, year:34,    title:'Martirio de Esteban y persecución',era:'nt',      type:'Persecución',desc:'Esteban es apedreado por el Sanedrín mientras ve "al Hijo del Hombre de pie a la diestra de Dios". Perdona a sus verdugos. Saulo (Pablo) guarda los mantos de los que lo apedrean. La persecución dispersa la iglesia.',people:[53,50],  verses:'Hechos 7', sig:4},
+  {id:62, year:35,    title:'Conversión de Pablo en el camino a Damasco',era:'nt',type:'Llamado',desc:'Saulo va a Damasco a perseguir cristianos. Una luz cegadora lo derriba. Escucha: "Saulo, Saulo, ¿por qué me persigues?" El mayor enemigo del cristianismo se convierte en su mayor defensor.',people:[50],   verses:'Hechos 9:1-19', sig:5},
+  {id:63, year:70,    title:'Destrucción de Jerusalén por Roma',era:'nt',      type:'Juicio',     desc:'El general romano Tito destruye Jerusalén y el Templo de Herodes. Más de 1 millón de judíos mueren; 97.000 son tomados prisioneros. Se cumple exactamente la profecía de Jesús en Mateo 24. El judaísmo es transformado para siempre.',people:[],     verses:'Mateo 24:1-2; Lucas 21:20-24', sig:5},
+  {id:64, year:95,    title:'El Apocalipsis de Juan en Patmos', era:'nt',      type:'Profecía',   desc:'El apóstol Juan, exiliado en la isla de Patmos, recibe la revelación de Jesucristo sobre los eventos del fin de los tiempos. Escribe el libro del Apocalipsis, el último libro de la Biblia.',people:[51],   verses:'Apocalipsis 1-22', sig:5},
+  {id:65, year:100,   title:'Muerte de Juan: fin de la era apostólica',era:'nt',type:'Transición',desc:'Juan el Apóstol muere en Éfeso de muerte natural a aproximadamente 94 años, el único apóstol que no murió mártir. Con su muerte concluye la era apostólica y el período del Nuevo Testamento.',people:[51],   verses:'Tradición eclesiástica', sig:4},
+];
+
+const QUICK_JUMPS = [
+  {label:'Creación',year:-4000,era:'creation'},{label:'Diluvio',year:-2348,era:'creation'},
+  {label:'Abraham',year:-2091,era:'patriarchs'},{label:'José en Egipto',year:-1885,era:'patriarchs'},
+  {label:'Éxodo',year:-1446,era:'egypt'},{label:'Diez Mandamientos',year:-1445,era:'egypt'},
+  {label:'David y Goliat',year:-1020,era:'kingdom'},{label:'Templo de Salomón',year:-959,era:'kingdom'},
+  {label:'Elías en Carmelo',year:-850,era:'divided'},{label:'Caída de Samaria',year:-722,era:'divided'},
+  {label:'Exilio Babilónico',year:-586,era:'exile'},{label:'Daniel y los leones',year:-539,era:'exile'},
+  {label:'Regreso del exilio',year:-538,era:'return'},{label:'Ester',year:-479,era:'return'},
+  {label:'Nacimiento de Jesús',year:-5,era:'nt'},{label:'Bautismo de Jesús',year:26,era:'nt'},
+  {label:'Crucifixión',year:30,era:'nt'},{label:'Pentecostés',year:30,era:'nt'},
+  {label:'Pablo misionero',year:46,era:'nt'},{label:'Apocalipsis',year:95,era:'nt'},
+];
+
+// ===================== STATE =====================
+let currentYear = -4000;
+let activeFilter = 'all';
+let searchQuery = '';
+
+// ===================== STARS =====================
+(function initStars(){
+  const canvas = document.getElementById('starsCanvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;initStarField();}
+  function initStarField(){stars=[];for(let i=0;i<200;i++){stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5+0.2,a:Math.random(),da:Math.random()*0.003+0.001});}}
+  function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.a+=s.da;if(s.a>1||s.a<0)s.da=-s.da;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,245,220,${s.a})`;ctx.fill();});requestAnimationFrame(draw);}
+  window.addEventListener('resize',resize);
+  resize();draw();
+})();
+
+// ===================== INIT =====================
+function getEra(year){return ERAS.find(e=>year>=e.start&&year<=e.end)||ERAS[0];}
+
+function formatYear(year){
+  if(year<0)return `${Math.abs(year)} a.C.`;
+  if(year===0)return '1 d.C.';
+  return `${year} d.C.`;
+}
+
+function buildEraTabs(){
+  const tabs = document.getElementById('era-tabs');
+  ERAS.forEach(era=>{
+    const btn = document.createElement('button');
+    btn.className='era-tab';
+    btn.textContent=era.label;
+    btn.dataset.era=era.id;
+    btn.onclick=()=>jumpToYear(era.start);
+    tabs.appendChild(btn);
+  });
+}
+
+function buildTimelineBar(){
+  const bar = document.getElementById('timeline-bar');
+  const total = 4100;
+  ERAS.forEach(era=>{
+    const pct = ((era.end - era.start) / total * 100).toFixed(2);
+    const seg = document.createElement('div');
+    seg.className='era-segment';
+    seg.style.cssText=`background:${era.color};flex-basis:${pct}%;flex-grow:0;flex-shrink:0;opacity:0.8;`;
+    seg.title=era.label;
+    seg.onclick=()=>jumpToYear(era.start);
+    bar.appendChild(seg);
+  });
+}
+
+function buildQuickJumps(){
+  const container = document.getElementById('quick-jumps');
+  QUICK_JUMPS.forEach(j=>{
+    const era  = ERAS.find(e=>e.id===j.era);
+    const col  = era ? era.color : '#4C6EB1';
+
+    // Convierte hex a rgb para poder usarlo con alpha variable
+    const hex2rgb = h => {
+      const r = parseInt(h.slice(1,3),16);
+      const g = parseInt(h.slice(3,5),16);
+      const b = parseInt(h.slice(5,7),16);
+      return `${r},${g},${b}`;
+    };
+    const rgb = hex2rgb(col);
+
+    const btn = document.createElement('button');
+    btn.className = 'quick-btn';
+    btn.textContent = j.label;
+
+    // Estado reposo: texto claro fijo, borde tintado, fondo muy sutil
+    btn.style.borderColor  = `rgba(${rgb},0.5)`;
+    btn.style.background   = `rgba(${rgb},0.10)`;
+    btn.style.color        = '#dde6f2';
+
+    btn.addEventListener('mouseenter', ()=>{
+      btn.style.borderColor = `rgba(${rgb},0.9)`;
+      btn.style.background  = `rgba(${rgb},0.22)`;
+      btn.style.color       = '#ffffff';
+    });
+    btn.addEventListener('mouseleave', ()=>{
+      btn.style.borderColor = `rgba(${rgb},0.5)`;
+      btn.style.background  = `rgba(${rgb},0.10)`;
+      btn.style.color       = '#dde6f2';
+    });
+
+    btn.onclick = ()=>jumpToYear(j.year);
+    container.appendChild(btn);
+  });
+}
+
+function updateNeedle(year){
+  const needle = document.getElementById('needle');
+  const bar = document.getElementById('timeline-bar');
+  const total = 4100;
+  const pct = ((year - (-4000)) / total * 100);
+  needle.style.left = Math.max(0, Math.min(100, pct)) + '%';
+}
+
+function updateEraNav(year){
+  const era = getEra(year);
+  document.querySelectorAll('.era-tab').forEach(t=>{
+    const isActive = t.dataset.era===era.id;
+    t.classList.toggle('active', isActive);
+    // Usa teal del branding como indicador, azul como color de texto activo
+    t.style.borderBottomColor = isActive ? '#01A4A4' : 'transparent';
+    t.style.color = isActive ? '#6d8ec8' : '';
+  });
+}
+
+function getPeopleForYear(year, range=120){
+  return PEOPLE.filter(p=>{
+    // Año de nacimiento efectivo
+    const born = (p.born !== null && p.born !== undefined) ? p.born : (year - 30);
+    // Año de muerte efectivo: primero usar died, luego born+age, luego born+80
+    let died;
+    if(p.died !== null && p.died !== undefined){
+      died = p.died;
+    } else if(p.age !== null && p.age !== undefined && p.born !== null){
+      died = p.born + p.age;
+    } else {
+      died = born + 80;
+    }
+    // La persona es visible si su vida se superpone con la ventana [year-range, year+range]
+    return born <= (year + range) && died >= (year - range);
+  }).filter(p=>{
+    if(activeFilter==='all') return true;
+    // Mapeo de tipos: varios tipos comparten un filtro de pestaña
+    const filterTypeMap = {
+      king:      ['king'],
+      prophet:   ['prophet'],
+      judge:     ['judge'],
+      apostle:   ['apostle','messiah'],
+      patriarch: ['patriarch','priest'],
+      woman:     ['woman'],
+    };
+    const allowed = filterTypeMap[activeFilter] || [activeFilter];
+    return allowed.includes(p.type);
+  }).filter(p=>{
+    if(!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return p.name.toLowerCase().includes(q)||p.role.toLowerCase().includes(q)||(p.desc&&p.desc.toLowerCase().includes(q));
+  }).sort((a,b)=>{
+    // Priorizar: 1) era actual primero, 2) mayor importancia
+    const currentEra = getEra(year);
+    const aMatch = (a.era === currentEra.id) ? 1 : 0;
+    const bMatch = (b.era === currentEra.id) ? 1 : 0;
+    if(bMatch !== aMatch) return bMatch - aMatch;
+    return b.sig - a.sig;
+  });
+}
+
+function getEventsForYear(year, range=150){
+  return EVENTS.filter(e=>{
+    return e.year >= (year - range) && e.year <= (year + range);
+  }).filter(e=>{
+    if(!searchQuery) return true;
+    return e.title.toLowerCase().includes(searchQuery)||e.desc.toLowerCase().includes(searchQuery);
+  }).sort((a,b)=>Math.abs(a.year-year)-Math.abs(b.year-year));
+}
+
+function renderPeople(year){
+  const grid = document.getElementById('people-grid');
+  const people = getPeopleForYear(year);
+  document.getElementById('people-count').textContent = people.length;
+  if(people.length===0){
+    const hints = {
+      king:      {msg:'Los reyes gobernaron Israel entre ~1050 a.C. y 586 a.C. (AT) y también en el período del NT.', year:-1010, label:'Ir a la época de David'},
+      prophet:   {msg:'Los profetas escritores aparecen entre ~760 a.C. y el NT. Los patriarcas también recibieron revelación directa.', year:-760, label:'Ir a la época de los profetas'},
+      judge:     {msg:'Los jueces gobernaron Israel entre ~1380 y ~1050 a.C., después de la conquista de Canaán.', year:-1200, label:'Ir al período de los Jueces'},
+      apostle:   {msg:'Los apóstoles y discípulos de Jesús vivieron en el siglo I d.C.', year:30, label:'Ir al Nuevo Testamento'},
+      patriarch: {msg:'Los patriarcas y sacerdotes se extienden desde la Creación (~4000 a.C.) hasta el NT.', year:-2000, label:'Ir a la época de Abraham'},
+      woman:     {msg:'Mujeres destacadas aparecen en todas las épocas. Prueba ajustar el año del selector.', year:-1100, label:'Ir a la época de Rut y Débora'},
+    };
+    const h = hints[activeFilter];
+    if(h){
+      grid.innerHTML=`<div class="no-results" style="max-width:340px;margin:0 auto">
+        <div style="font-size:2rem;margin-bottom:0.75rem">🔍</div>
+        <div style="font-family:'Cinzel',serif;color:var(--gold);font-size:0.85rem;margin-bottom:0.5rem">Sin personajes de este tipo en el año seleccionado</div>
+        <div style="color:var(--muted);font-size:0.82rem;line-height:1.6;margin-bottom:1rem">${h.msg}</div>
+        <button onclick="jumpToYear(${h.year})" class="go-btn" style="font-size:0.75rem;padding:0.4rem 1.2rem">${h.label}</button>
+      </div>`;
+    } else {
+      grid.innerHTML='<div class="no-results">No se encontraron personajes para este período.</div>';
+    }
+    return;
+  }
+  grid.innerHTML = people.map(p=>{
+    const era = getEra(p.born !== null && p.born !== undefined ? p.born : year);
+    const stars = '★'.repeat(p.sig)+'☆'.repeat(5-p.sig);
+    const born  = p.born !== null && p.born !== undefined ? p.born : null;
+    const died  = p.died !== null && p.died !== undefined ? p.died
+                : (p.age && born !== null ? born + p.age : null);
+    const datesStr = born !== null
+      ? formatYear(born) + (died !== null ? ' — ' + formatYear(died) : '')
+      : 'Fecha incierta';
+    const ageStr = p.age ? p.age + ' años' : '';
+    return `<div class="person-card" onclick="openPerson(${p.id})" style="--era-color:${era.color}" title="Ver detalles · navega a esta época">
+      <span class="person-emoji">${p.emoji}</span>
+      <div class="person-name">${p.name}</div>
+      <div class="person-role">${p.role}</div>
+      <div class="person-dates">${datesStr}</div>
+      ${ageStr ? `<div class="person-age">${ageStr}</div>` : ''}
+      <span class="era-pill" style="color:${era.color};border-color:${era.color}55">${era.label}</span>
+      <div class="stars">${stars}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderEvents(year){
+  const list = document.getElementById('events-list');
+  const events = getEventsForYear(year);
+  document.getElementById('events-count').textContent = events.length;
+  if(events.length===0){list.innerHTML='<div class="no-results" style="padding:2rem;text-align:center"><div style="font-size:1.5rem;margin-bottom:0.5rem">📜</div><div style="color:var(--muted);font-size:0.85rem">No hay eventos registrados cerca de este año.<br>Mueve el selector para explorar otras épocas.</div></div>';return;}
+  list.innerHTML = events.map(e=>{
+    const era = ERAS.find(r=>r.id===e.era)||ERAS[0];
+    const stars = '★'.repeat(e.sig)+'☆'.repeat(5-e.sig);
+    return `<div class="event-item" style="--era-color:${era.color};border-left-color:${era.color}" onclick="openEvent(${e.id})">
+      <div class="event-year">${formatYear(e.year)} · ${stars}</div>
+      <div class="event-title">${e.title}</div>
+      <div class="event-desc">${e.desc.substring(0,120)}...</div>
+      <span class="event-type">${e.type}</span>
+    </div>`;
+  }).join('');
+}
+
+function updateAll(year){
+  const era = getEra(year);
+  document.getElementById('year-display').textContent = formatYear(year);
+  document.getElementById('era-label').textContent = era.label + ' (' + formatYear(era.start) + ' — ' + formatYear(era.end) + ')';
+  document.getElementById('year-slider').value = year;
+  updateNeedle(year);
+  updateEraNav(year);
+  renderPeople(year);
+  renderEvents(year);
+}
+
+function jumpToYear(year){
+  currentYear = year;
+  updateAll(year);
+  document.getElementById('timeline-sec').scrollIntoView({behavior:'smooth'});
+}
+
+function goToManualYear(){
+  const num = parseInt(document.getElementById('manual-num').value);
+  const era = document.getElementById('manual-era').value;
+  if(isNaN(num)||num<1) return;
+  const year = era==='BC' ? -num : num;
+  const clamped = Math.max(-4000, Math.min(100, year));
+  jumpToYear(clamped);
+}
+
+function setFilter(filter, btn){
+  activeFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  renderPeople(currentYear);
+}
+
+function filterContent(){
+  searchQuery = document.getElementById('search-input').value.toLowerCase();
+  renderPeople(currentYear);
+  renderEvents(currentYear);
+}
+
+// ===================== MODAL =====================
+
+// Navega la línea del tiempo al año de nacimiento del personaje y cierra el modal
+function navToPersonEra(id){
+  const p = PEOPLE.find(x=>x.id===id);
+  if(!p || p.born===null || p.born===undefined) return;
+  document.getElementById('person-modal').classList.remove('open');
+  jumpToYear(Math.max(-4000, Math.min(100, p.born)));
+}
+
+function openPerson(id){
+  const p = PEOPLE.find(x=>x.id===id);
+  if(!p) return;
+
+  // ── Actualizar selector y display al año del personaje (sin re-renderizar la grilla) ──
+  if(p.born !== null && p.born !== undefined){
+    const yr = Math.max(-4000, Math.min(100, p.born));
+    const eraP = getEra(yr);
+    document.getElementById('year-display').textContent = formatYear(yr);
+    document.getElementById('era-label').textContent = eraP.label+' ('+formatYear(eraP.start)+' — '+formatYear(eraP.end)+')';
+    document.getElementById('year-slider').value = yr;
+    updateNeedle(yr);
+    updateEraNav(yr);
+    currentYear = yr;
+  }
+
+  const era      = getEra(p.born !== null ? p.born : currentYear);
+  const stars    = '★'.repeat(p.sig)+'☆'.repeat(5-p.sig);
+  const datesStr = p.born !== null && p.born !== undefined ? formatYear(p.born) : 'Desconocido';
+  const deathStr = p.died !== null && p.died !== undefined
+    ? formatYear(p.died)
+    : (p.age === null ? 'Trasladado al cielo' : 'Desconocido');
+  const ageStr   = p.age ? p.age+' años' : (p.died === null && p.born !== null ? 'Trasladado sin morir' : '?');
+
+  // Posición y ancho en la barra de historia total (4100 años)
+  const totalSpan = 4100;
+  const lifeLen   = (p.born !== null && p.died !== null) ? Math.abs(p.died - p.born) : (p.age || 80);
+  const lifePct   = Math.min(96, Math.max(1.5, (lifeLen / totalSpan) * 600));
+  const posLeft   = p.born !== null ? Math.max(0, Math.min(94, ((p.born + 4000) / totalSpan) * 100)) : 0;
+
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-emoji">${p.emoji}</div>
+    <div class="modal-name" style="color:${era.color}">${p.name}</div>
+    <div class="modal-role">${p.role}</div>
+
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.2rem;flex-wrap:wrap">
+      <span style="background:${era.color}22;border:1px solid ${era.color}55;color:${era.color};font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.12em;padding:0.25rem 0.8rem;border-radius:20px">${era.label.toUpperCase()}</span>
+      <span style="color:var(--muted);font-family:'Cinzel',serif;font-size:0.7rem">${formatYear(era.start)} — ${formatYear(era.end)}</span>
+    </div>
+
+    <div class="modal-meta">
+      <div class="meta-item"><span class="meta-label">NACIMIENTO</span><span class="meta-value">${datesStr}</span></div>
+      <div class="meta-item"><span class="meta-label">MUERTE / FIN</span><span class="meta-value">${deathStr}</span></div>
+      <div class="meta-item"><span class="meta-label">EDAD</span><span class="meta-value">${ageStr}</span></div>
+      <div class="meta-item"><span class="meta-label">IMPORTANCIA</span><span class="meta-value" style="color:var(--gold)">${stars}</span></div>
+    </div>
+
+    <div class="modal-desc">${p.desc}</div>
+    ${p.family     ? `<div class="modal-desc"><strong style="color:var(--gold);font-family:'Cinzel',serif;font-size:0.73rem;display:block;margin-bottom:0.2rem">FAMILIA</strong>${p.family}</div>` : ''}
+    ${p.nationality? `<div class="modal-desc"><strong style="color:var(--gold);font-family:'Cinzel',serif;font-size:0.73rem;display:block;margin-bottom:0.2rem">ORIGEN</strong>${p.nationality}</div>` : ''}
+    <div class="modal-verses" style="margin-top:1rem">📖 ${p.verses}</div>
+
+    ${p.born !== null && p.born !== undefined ? `
+    <div class="modal-lifespan" style="margin-top:1.5rem">
+      <div style="font-family:'Cinzel',serif;font-size:0.68rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.5rem">POSICIÓN EN LA HISTORIA BÍBLICA (4000 a.C. → 100 d.C.)</div>
+      <div style="position:relative;height:10px;background:rgba(255,255,255,0.07);border-radius:5px;overflow:hidden">
+        <div style="position:absolute;left:${posLeft.toFixed(1)}%;width:${lifePct.toFixed(1)}%;height:100%;background:linear-gradient(90deg,${era.color},${era.color}88);border-radius:5px;box-shadow:0 0 8px ${era.color}55"></div>
+      </div>
+      <div class="lifespan-label"><span>${datesStr}</span><span>${deathStr}</span></div>
+    </div>` : ''}
+
+    <div style="margin-top:1.5rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+      <button onclick="navToPersonEra(${p.id})"
+        style="font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.55rem 1.3rem;background:${era.color};color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:700;transition:opacity 0.2s"
+        onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+        ↗ VER EN LA LÍNEA DEL TIEMPO
+      </button>
+      <button onclick="document.getElementById('person-modal').classList.remove('open')"
+        style="font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.55rem 1.3rem;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.12);border-radius:4px;cursor:pointer">
+        CERRAR
+      </button>
+    </div>
+  `;
+  document.getElementById('person-modal').classList.add('open');
+}
+
+function openEvent(id){
+  const e = EVENTS.find(x=>x.id===id);
+  if(!e) return;
+  const era = ERAS.find(r=>r.id===e.era)||ERAS[0];
+  const stars = '★'.repeat(e.sig)+'☆'.repeat(5-e.sig);
+  const involvedPeople = e.people.map(pid=>PEOPLE.find(p=>p.id===pid)).filter(Boolean);
+  document.getElementById('modal-content').innerHTML = `
+    <div style="font-size:3rem;margin-bottom:1rem">⚡</div>
+    <div class="modal-name" style="color:${era.color}">${e.title}</div>
+    <div class="modal-role">${e.type} · ${formatYear(e.year)}</div>
+    <div style="color:${era.color};font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.15em;margin-bottom:1rem">${era.label.toUpperCase()}</div>
+    <div class="modal-meta">
+      <div class="meta-item"><span class="meta-label">AÑO</span><span class="meta-value">${formatYear(e.year)}</span></div>
+      <div class="meta-item"><span class="meta-label">ERA</span><span class="meta-value">${era.label}</span></div>
+      <div class="meta-item"><span class="meta-label">IMPORTANCIA</span><span class="meta-value" style="color:var(--gold)">${stars}</span></div>
+    </div>
+    <div class="modal-desc">${e.desc}</div>
+    ${involvedPeople.length>0 ? `<div style="margin-top:1rem">
+      <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:var(--gold);margin-bottom:0.5rem">PERSONAJES INVOLUCRADOS:</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem">${involvedPeople.map(p=>`<span onclick="openPerson(${p.id})" style="cursor:pointer;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:20px;padding:0.25rem 0.75rem;font-size:0.8rem;transition:all 0.2s" onmouseover="this.style.background='rgba(212,175,55,0.25)'" onmouseout="this.style.background='rgba(212,175,55,0.1)'">${p.emoji} ${p.name}</span>`).join('')}</div>
+    </div>` : ''}
+    <div class="modal-verses" style="margin-top:1rem">📖 Referencias: ${e.verses}</div>
+  `;
+  document.getElementById('person-modal').classList.add('open');
+}
+
+function closeModal(e){
+  if(e.target===document.getElementById('person-modal')) document.getElementById('person-modal').classList.remove('open');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('person-modal').classList.remove('open');});
+
+// SLIDER
+document.getElementById('year-slider').addEventListener('input', function(){
+  currentYear = parseInt(this.value);
+  updateAll(currentYear);
+});
+
+// INTERSECTION OBSERVER
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+// INIT
+buildEraTabs();
+buildTimelineBar();
+buildQuickJumps();
+updateAll(-4000);
+</script>
+</body>
+</html>
